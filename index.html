@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>逆さ事 ｜ 怪談ノベル</title>
+<meta name="description" content="死んだ人に、生きている人の作法が通じてはいけない。だから何もかも逆にする。屏風は逆さに、水は水に湯を、着物は左前に。朝までに、全部元へ戻すこと。">
+<meta name="theme-color" content="#efe9dc">
+<meta property="og:type" content="website">
+<meta property="og:title" content="逆さ事 ｜ 怪談ノベル">
+<meta property="og:description" content="通夜の前夜。死者のために、屏風も、水も、着物も逆にする。朝までに、全部元へ戻すこと。">
+<meta property="og:image" content="https://pixelhime.github.io/sakasagoto/og-image.png">
+<meta property="og:url" content="https://pixelhime.github.io/sakasagoto/">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="逆さ事 ｜ 怪談ノベル">
+<meta name="twitter:description" content="死者に、生きている人の作法が通じてはいけない。だから何もかも逆にする。">
+<meta name="twitter:image" content="https://pixelhime.github.io/sakasagoto/og-image.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="逆さ事">
+<link rel="preload" as="image" href="sakasagoto-assets-illustrated/byobu-pine.webp">
+<link rel="preload" as="image" href="sakasagoto-assets-illustrated/kyokatabira-open-v2.webp">
+<link rel="preload" as="image" href="sakasagoto-assets-illustrated/kakocho.webp">
+<style>
+  :root{
+    /* 白木と晒の白、墨、双銀、菊の淡黄。既存作（暗色系）と真逆の明るい弔いの白 */
+    --paper:#efe9dc;
+    --paper2:#e3dccb;
+    --paper3:#d6cdb8;
+    --sumi:#26241f;
+    --sumi2:#4a463d;
+    --gin:#9a958c;
+    --kiku:#c4ad5e;
+    --beni:#8f3a3a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+    color:var(--sumi);
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.9) 0%, transparent 55%),
+      linear-gradient(180deg,#f4efe4 0%, var(--paper) 45%, var(--paper3) 100%);
+    transition:background 2.2s ease,color 1.6s ease;
+  }
+  body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;
+    background:linear-gradient(180deg,rgba(30,38,55,.12),rgba(25,23,20,.2));transition:opacity 2.2s ease,background 2.2s ease;}
+  body.time-evening::after{opacity:.18;background:linear-gradient(180deg,rgba(92,69,36,.06),rgba(36,29,22,.18));}
+  body.time-midnight::after{opacity:.5;background:linear-gradient(180deg,rgba(30,42,62,.2),rgba(25,24,29,.34));}
+  body.time-deep::after{opacity:.7;background:radial-gradient(ellipse at 50% 30%,rgba(69,57,54,.04),rgba(18,25,37,.5));}
+  body.time-omen::after{opacity:.76;background:radial-gradient(ellipse at 50% 25%,rgba(106,41,41,.05),rgba(25,19,27,.56));}
+  body.time-dawn::after{opacity:.3;background:linear-gradient(180deg,rgba(221,223,209,.26),rgba(37,42,48,.2));}
+  section{position:relative;z-index:2;display:none;width:100%;height:100%;
+    align-items:center;justify-content:center;flex-direction:column;}
+  section.on{display:flex;}
+
+  /* 線香の煙 */
+  .smoke{position:fixed;bottom:-12vh;pointer-events:none;z-index:1;
+    width:2px;height:46vh;
+    background:linear-gradient(0deg, rgba(255,255,255,.55), rgba(255,255,255,.12) 55%, transparent);
+    filter:blur(4px);
+    animation:rise linear infinite;
+  }
+  @keyframes rise{
+    0%{transform:translateY(0) translateX(0) scaleY(.6);opacity:0;}
+    18%{opacity:.9;}
+    100%{transform:translateY(-115vh) translateX(var(--sway,26px)) scaleY(1.25);opacity:0;}
+  }
+  body.time-omen .smoke{animation-direction:reverse;filter:blur(5px);}
+
+  /* ===== ボタン：奉書紙の紙片 ===== */
+  .fuda{
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;cursor:pointer;
+    background:linear-gradient(178deg,#fdfbf5,#efe9db);
+    color:var(--sumi);
+    border:1px solid #c9c0ab;
+    border-radius:1px;
+    padding:12px 26px;font-size:14px;letter-spacing:.16em;text-indent:.16em;
+    box-shadow:0 1px 0 #fff inset, 0 3px 7px rgba(60,54,40,.16);
+    transition:transform .12s, box-shadow .12s, background .2s;
+    position:relative;
+  }
+  .fuda::before{
+    content:"";position:absolute;left:8px;right:8px;top:5px;height:1px;
+    background:rgba(154,149,140,.32);
+  }
+  .fuda:hover{background:linear-gradient(178deg,#fff,#f4efe3);}
+  .fuda:active{transform:translateY(2px);box-shadow:0 1px 3px rgba(60,54,40,.2);}
+  .fuda:disabled{opacity:.38;cursor:default;transform:none;}
+  .fuda.warn{color:var(--beni);border-color:#c4a3a3;}
+  .fuda.warn::before{background:rgba(143,58,58,.3);}
+
+  /* ===== title ===== */
+  #s-title{padding:0 20px;}
+  #s-title h1{
+    font-size:clamp(46px,12vw,78px);letter-spacing:.3em;text-indent:.3em;font-weight:400;
+    color:var(--sumi);text-align:center;
+    text-shadow:0 1px 0 #fff;
+  }
+  #s-title .rule{width:min(70vw,300px);height:1px;background:var(--gin);margin:22px 0 18px;opacity:.6;}
+  #s-title .sub{font-size:12.5px;letter-spacing:.3em;color:var(--sumi2);margin-bottom:20px;
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif;text-align:center;}
+  #name-entry{width:min(78vw,300px);margin:0 0 14px;font-family:"Hiragino Kaku Gothic ProN",sans-serif;}
+  #name-entry label{display:block;margin-bottom:5px;font-size:10px;letter-spacing:.16em;color:var(--sumi2);}
+  #player-name{display:block;width:100%;height:39px;padding:7px 10px;border:1px solid #bfb59f;border-radius:1px;
+    background:linear-gradient(178deg,#fdfbf6,#eee7d8);color:var(--sumi);font:16px/1.2 "Hiragino Mincho ProN","Yu Mincho",serif;
+    letter-spacing:.08em;text-align:center;box-shadow:inset 0 1px 4px rgba(70,62,45,.09);outline:none;}
+  #player-name:focus{border-color:var(--kiku);box-shadow:0 0 0 2px rgba(196,173,94,.16),inset 0 1px 4px rgba(70,62,45,.09);}
+  #player-name[aria-invalid="true"]{border-color:var(--beni);animation:name-error .28s ease;}
+  #name-meta{display:flex;justify-content:space-between;gap:8px;margin-top:4px;min-height:15px;
+    font-size:8.5px;line-height:1.35;letter-spacing:.02em;color:#8b8272;}
+  #name-error{color:var(--beni);text-align:right;}
+  @keyframes name-error{25%{transform:translateX(-2px);}65%{transform:translateX(2px);}100%{transform:translateX(0);}}
+  #ending-progress{margin-top:24px;font:9px/1.4 "Hiragino Kaku Gothic ProN",sans-serif;
+    letter-spacing:.14em;color:#8b8272;text-align:center;}
+  #btn-resume{display:none;margin-top:10px;}
+  #marks{margin-top:8px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  #marks .ending-mark{
+    width:62px;height:62px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:9px;letter-spacing:.02em;line-height:1.3;text-align:center;padding:3px;
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif;
+    background:linear-gradient(178deg,#e6e0d0,#d8d0bc);
+    border:1px solid #c6bda8;color:#a49a86;
+    overflow-wrap:break-word;cursor:default;
+  }
+  html[lang="ja"] #marks .ending-mark{font-size:13px;letter-spacing:.05em;}
+  #marks .ending-mark.got{
+    background:linear-gradient(178deg,#fdfbf5,#f0eade);
+    color:var(--sumi);border-color:var(--kiku);cursor:pointer;
+    box-shadow:0 2px 6px rgba(60,54,40,.11);transition:transform .16s ease,box-shadow .16s ease,background .2s ease;
+  }
+  #marks .ending-mark.got:hover,#marks .ending-mark.got:focus-visible{transform:translateY(-2px);
+    box-shadow:0 6px 12px rgba(60,54,40,.17);background:linear-gradient(178deg,#fffef9,#f4ecda);outline:1px solid rgba(196,173,94,.5);}
+  #marks .ending-mark:disabled{opacity:1;}
+  #reset-zone{margin-top:24px;}
+  #btn-reset{font-size:11px;padding:8px 14px;letter-spacing:.1em;text-indent:.1em;}
+
+  /* ===== 語り ===== */
+  .story{
+    width:min(92vw,548px);
+    background:linear-gradient(178deg,#fdfbf6,#f2ece0);
+    border:1px solid #cfc6b1;border-left:3px solid var(--gin);
+    padding:32px 30px 26px;
+    font-size:15px;line-height:2.25;letter-spacing:.04em;color:var(--sumi);
+    max-height:82vh;overflow-y:auto;
+    box-shadow:0 10px 30px rgba(60,54,40,.14);
+  }
+  .story p{margin-bottom:1.15em;}
+  .story .actions{text-align:center;margin-top:26px;}
+
+  /* ===== 座敷 ===== */
+  #s-work{justify-content:flex-start;padding:50px 0 8px;overflow:hidden;}
+  #room{
+    width:min(94vw,556px);flex:1 1 auto;min-height:0;
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+  }
+  #hourbar{
+    width:100%;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;
+    row-gap:3px;column-gap:8px;
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif;
+    font-size:11px;letter-spacing:.14em;color:var(--sumi2);
+  }
+  #hourbar b{font-size:13.5px;color:var(--sumi);letter-spacing:.08em;}
+  #act-label{flex-basis:100%;font-size:9px;letter-spacing:.22em;color:#8a806e;text-align:center;}
+  #hb-hour,#hb-clock,#hb-eri{white-space:nowrap;}
+  #hb-eri{display:flex;align-items:center;gap:6px;border:0;background:transparent;color:var(--sumi2);
+    font:inherit;letter-spacing:inherit;cursor:pointer;padding:2px 3px;}
+  #hb-eri:hover,#hb-eri:focus-visible{background:rgba(196,173,94,.12);outline:1px solid rgba(196,173,94,.45);}
+  /* 主人公の反転度。生者の右前から、死者の左前へ少しずつ移る。 */
+  .eri{width:22px;height:18px;position:relative;display:inline-block;border:1px solid var(--gin);
+    background:#fdfbf5;overflow:hidden;}
+  .eri i{position:absolute;top:1px;width:3px;height:16px;border-radius:2px;
+    transform-origin:top center;transition:background .8s ease,opacity .8s ease,transform 1.1s ease;}
+  .eri .eri-l{left:8px;transform:rotate(-31deg);background:var(--sumi2);opacity:var(--eri-l,.95);}
+  .eri .eri-r{right:8px;transform:rotate(31deg);background:var(--beni);opacity:var(--eri-r,.25);}
+  .eri-scale{display:flex;align-items:center;gap:3px;font-size:8px;letter-spacing:0;}
+  html:not(.second-sight) .eri-scale{opacity:.18;filter:blur(.25px);}
+  .eri-track{display:inline-block;width:36px;height:2px;background:#bdb39c;position:relative;}
+  .eri-track i{position:absolute;top:50%;left:var(--eri-pos,0%);width:6px;height:6px;border-radius:50%;
+    background:var(--eri-dot,var(--sumi2));transform:translate(-50%,-50%);transition:left 1.1s ease,background .8s ease;}
+  #eri-help{position:fixed;z-index:76;right:14px;top:76px;width:min(84vw,320px);padding:13px 38px 13px 14px;
+    background:rgba(253,251,245,.97);border:1px solid #c9c0ab;border-left:2px solid var(--kiku);
+    box-shadow:0 8px 24px rgba(60,54,40,.18);font:11.5px/1.7 "Hiragino Kaku Gothic ProN",sans-serif;
+    color:var(--sumi2);}
+  #eri-help[hidden]{display:none;}
+  #eri-help-close{position:absolute;right:7px;top:6px;width:26px;height:26px;border:0;background:transparent;
+    color:var(--sumi2);font:19px/1 sans-serif;cursor:pointer;border-radius:50%;}
+  #eri-help-close:hover,#eri-help-close:focus-visible{background:rgba(196,173,94,.16);outline:1px solid rgba(196,173,94,.55);}
+  #misstep-vignette{position:fixed;inset:0;z-index:74;pointer-events:none;opacity:0;
+    background:radial-gradient(ellipse at center,rgba(72,14,14,.035) 24%,rgba(111,24,24,.34) 100%);
+    box-shadow:inset 0 0 0 2px rgba(115,30,30,.2);}
+  #misstep-vignette.on{animation:misstep-vignette .9s ease-out;}
+  #zashiki.misstep{animation:misstep-room .58s ease-out;}
+  @keyframes misstep-vignette{
+    0%{opacity:0;}14%{opacity:.92;}34%{opacity:.36;}52%{opacity:.76;}100%{opacity:0;}
+  }
+  @keyframes misstep-room{
+    0%,100%{transform:translateX(0);filter:none;}14%{transform:translateX(-2px);filter:contrast(1.06) brightness(.94);}
+    31%{transform:translateX(2px);}49%{transform:translateX(-1.5px);}68%{transform:translateX(1px);}84%{transform:translateX(-.5px);filter:none;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+    .smoke{display:none;}#zashiki.misstep{animation:none;}
+  }
+
+  /* ===== 結末帳 ===== */
+  #ending-book{position:fixed;inset:0;z-index:95;display:flex;align-items:center;justify-content:center;
+    padding:18px;background:rgba(27,25,21,.62);backdrop-filter:blur(2px);}
+  #ending-book[hidden]{display:none;}
+  .ending-book-sheet{position:relative;isolation:isolate;width:min(92vw,560px);max-height:86vh;overflow-y:auto;
+    padding:30px 30px 24px;
+    background:
+      radial-gradient(ellipse at 18% 12%,rgba(255,255,255,.62) 0 5%,transparent 24%),
+      radial-gradient(ellipse at 82% 76%,rgba(128,105,69,.09) 0 3%,transparent 25%),
+      repeating-linear-gradient(7deg,rgba(100,82,53,.035) 0 1px,transparent 1px 5px),
+      repeating-linear-gradient(96deg,rgba(255,255,255,.13) 0 1px,transparent 1px 8px),
+      linear-gradient(177deg,#fdfbf4,#eee5d3);
+    background-blend-mode:screen,multiply,multiply,screen,normal;
+    border:1px solid #bdb39c;border-left:4px solid var(--kiku);
+    box-shadow:inset 0 0 32px rgba(119,96,61,.11),inset 0 1px 0 rgba(255,255,255,.78),0 18px 48px rgba(18,16,12,.38);
+    animation:book-open .28s ease-out;}
+  /* 手漉き和紙の短い繊維と紙粒。本文より後ろに薄く重ねる。 */
+  .ending-book-sheet::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.42;
+    background:
+      radial-gradient(circle at 12% 24%,rgba(83,67,43,.22) 0 .45px,transparent .8px),
+      radial-gradient(circle at 68% 41%,rgba(96,78,50,.18) 0 .5px,transparent .9px),
+      radial-gradient(circle at 37% 83%,rgba(255,255,255,.8) 0 .45px,transparent .85px),
+      repeating-linear-gradient(13deg,transparent 0 17px,rgba(107,88,57,.08) 17px 18px,transparent 18px 39px);
+    background-size:7px 9px,11px 8px,9px 12px,100% 100%;mix-blend-mode:multiply;}
+  /* 結末の深刻さに応じ、乾いた指跡から濃い血糊まで段階的に増える。 */
+  .ending-book-sheet::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    opacity:var(--blood-opacity,0);mix-blend-mode:multiply;background-repeat:no-repeat;
+    animation:blood-seep 1.25s ease-out both;}
+  #ending-book.ending-modosu{--blood-opacity:.15;}
+  #ending-book.ending-modosu .ending-book-sheet::after{
+    background:
+      radial-gradient(ellipse 7% 3.2% at 89% 91%,rgba(82,39,31,.5) 0 24%,rgba(91,47,35,.2) 45%,transparent 72%),
+      repeating-radial-gradient(ellipse 6% 2.7% at 89% 91%,transparent 0 4px,rgba(91,50,38,.28) 5px 6px,transparent 7px 10px);}
+  #ending-book.ending-hidarimae{--blood-opacity:.42;}
+  #ending-book.ending-hidarimae.blood-2{--blood-opacity:.55;}
+  #ending-book.ending-hidarimae.blood-3{--blood-opacity:.68;}
+  #ending-book.ending-hidarimae .ending-book-sheet::after{
+    background:
+      linear-gradient(105deg,transparent 0 67%,rgba(108,31,35,.12) 69%,rgba(91,22,29,.5) 70%,rgba(120,40,41,.18) 72%,transparent 76%),
+      radial-gradient(circle at 82% 24%,rgba(93,23,29,.72) 0 2px,transparent 3px),
+      radial-gradient(circle at 78% 32%,rgba(112,30,34,.58) 0 1.5px,transparent 2.8px),
+      radial-gradient(ellipse 15% 5% at 76% 18%,rgba(91,25,30,.36) 0 30%,transparent 74%);}
+  #ending-book.ending-nokosu{--blood-opacity:.38;}
+  #ending-book.ending-nokosu.blood-2{--blood-opacity:.56;}
+  #ending-book.ending-nokosu.blood-3{--blood-opacity:.72;}
+  #ending-book.ending-nokosu .ending-book-sheet::after{
+    background:
+      linear-gradient(180deg,rgba(81,18,24,.68) 0 7%,rgba(113,30,33,.35) 12%,transparent 31%) 92% 0/7px 67% no-repeat,
+      linear-gradient(180deg,rgba(100,24,29,.62) 0 8%,rgba(120,39,38,.26) 19%,transparent 38%) 84% 0/4px 48% no-repeat,
+      radial-gradient(circle at 91% 53%,rgba(92,21,28,.72) 0 3px,transparent 4px),
+      radial-gradient(circle at 86% 67%,rgba(111,30,34,.57) 0 2px,transparent 3.2px),
+      radial-gradient(ellipse 27% 12% at 91% 3%,rgba(73,20,24,.72) 0 25%,rgba(126,47,40,.26) 54%,transparent 78%);}
+  #ending-book.ending-maneku{--blood-opacity:.82;}
+  #ending-book.ending-maneku .ending-book-sheet::after{
+    background:
+      linear-gradient(178deg,rgba(68,14,21,.72) 0 8%,rgba(111,27,31,.38) 20%,transparent 47%) 16% 0/9px 82% no-repeat,
+      linear-gradient(180deg,rgba(89,18,25,.68) 0 12%,rgba(122,35,36,.31) 26%,transparent 55%) 25% 0/5px 66% no-repeat,
+      radial-gradient(circle at 18% 63%,rgba(73,15,22,.86) 0 4px,transparent 5.5px),
+      radial-gradient(circle at 30% 79%,rgba(98,22,28,.72) 0 2.5px,transparent 4px),
+      radial-gradient(circle at 42% 87%,rgba(108,29,32,.62) 0 2px,transparent 3.5px),
+      radial-gradient(ellipse 42% 23% at 8% 5%,rgba(61,14,20,.82) 0 23%,rgba(99,23,29,.55) 43%,rgba(123,45,39,.2) 65%,transparent 80%);}
+  .ending-book-sheet>*{position:relative;z-index:1;}
+  @keyframes book-open{from{opacity:0;transform:translateY(7px) scale(.985);}to{opacity:1;transform:none;}}
+  @keyframes blood-seep{from{opacity:0;filter:blur(5px);transform:scale(.975);}to{opacity:var(--blood-opacity,0);filter:blur(0);transform:scale(1);}}
+  #ending-book-close{position:absolute;right:9px;top:8px;width:30px;height:30px;border:0;border-radius:50%;
+    background:transparent;color:var(--sumi2);font:21px/1 sans-serif;cursor:pointer;}
+  #ending-book-close:hover,#ending-book-close:focus-visible{background:rgba(196,173,94,.16);outline:1px solid rgba(196,173,94,.55);}
+  #ending-book-kicker{font:9px/1.4 "Hiragino Kaku Gothic ProN",sans-serif;letter-spacing:.22em;color:#8b8272;}
+  #ending-book-title{margin:8px 0 18px;font-size:24px;font-weight:400;letter-spacing:.16em;color:var(--sumi);}
+  #ending-book-body{font-size:14px;line-height:2.05;letter-spacing:.025em;color:var(--sumi);}
+  #ending-book-body p{margin-bottom:.8em;}
+  #ending-book-done{display:block;margin:20px auto 0;}
+
+  /* 見取り図 */
+  #zashiki{
+    width:100%;flex:0 0 auto;
+    height:clamp(220px,38vh,292px);
+    position:relative;overflow:hidden;
+    border:1px solid #c9c0ab;
+    background:
+      repeating-linear-gradient(90deg, rgba(160,150,125,.13) 0 1px, transparent 1px 78px),
+      linear-gradient(178deg,#e9e2cf,#ddd4bd);
+    box-shadow:inset 0 0 30px rgba(120,108,80,.14);
+    transition:background 2s ease,box-shadow 2s ease;
+  }
+  body.time-midnight #zashiki,body.time-deep #zashiki,body.time-omen #zashiki{
+    background:repeating-linear-gradient(90deg,rgba(108,111,112,.12) 0 1px,transparent 1px 78px),linear-gradient(178deg,#d9d6c9,#c8c4b7);
+    box-shadow:inset 0 0 44px rgba(41,45,53,.24);}
+  body.time-dawn #zashiki{background:repeating-linear-gradient(90deg,rgba(160,150,125,.11) 0 1px,transparent 1px 78px),linear-gradient(178deg,#eeeadf,#d9d5ca);}
+  #zashiki .tatami-edge{position:absolute;left:0;right:0;top:0;height:3px;background:rgba(60,54,40,.16);}
+  /* 枕飯だけは、長い箸の先端から茶碗の底までを一枚の中へ見せる。 */
+  #zashiki.meshi-stage{height:clamp(255px,42vh,300px);}
+  #obj{
+    position:absolute;left:50%;top:50%;
+    transform:translate(-50%,-50%) rotate(var(--ang,0deg));
+    transition:transform .55s cubic-bezier(.4,0,.2,1);
+    cursor:pointer;
+    z-index:8;
+  }
+  #obj.meshi-object{top:64.7%;}
+  #obj.locked{cursor:default;}
+  .pair{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    display:flex;gap:26px;align-items:center;
+  }
+  /* 操作中は、済ませた品を背景へ蓄積せず、現在の一品だけを見せる。 */
+  #tableau{display:none;position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;}
+  .tableau-item{position:absolute;opacity:0;background-repeat:no-repeat;background-position:center;background-size:contain;
+    mix-blend-mode:multiply;filter:saturate(.72) contrast(.92);transition:opacity 1.1s ease,transform 1.1s ease;}
+  .tableau-item.on{opacity:.28;}
+  .tableau-item.byobu{left:3%;top:4%;width:36%;height:31%;background-image:url("sakasagoto-assets-illustrated/byobu-pine.webp");transform:rotate(var(--mini-byobu,0deg));}
+  .tableau-item.mizu{right:2%;top:5%;width:31%;height:27%;background-image:url("sakasagoto-assets-illustrated/sakasa-mizu-v2.webp");}
+  .tableau-item.eri{left:2%;bottom:4%;width:30%;height:27%;background-image:url("sakasagoto-assets-illustrated/kyokatabira-open-v2.webp");}
+  .tableau-item.meshi{right:27%;bottom:2%;width:18%;height:27%;background-image:url("sakasagoto-assets-illustrated/makura-meshi.webp");}
+  .tableau-item.futon{left:39%;top:6%;width:20%;height:43%;background-image:url("sakasagoto-assets-illustrated/kita-makura.webp");transform:rotate(var(--mini-futon,0deg));}
+  .tableau-item.zori{right:5%;bottom:2%;width:17%;height:34%;background-image:url("sakasagoto-assets-illustrated/zori.webp");transform:rotate(var(--mini-zori,0deg));}
+  .tableau-item.kakocho{left:35%;bottom:1%;width:30%;height:26%;background-image:url("sakasagoto-assets-illustrated/kakocho.webp");}
+  #omen{position:absolute;z-index:12;left:8%;right:8%;top:50%;transform:translateY(-50%);
+    padding:12px 15px;text-align:center;color:#702f31;background:rgba(247,238,222,.9);border:1px solid rgba(124,52,52,.38);
+    font-size:12px;line-height:1.75;letter-spacing:.06em;opacity:0;pointer-events:none;filter:blur(2px);
+    transition:opacity .45s ease,filter .45s ease,transform .45s ease;}
+  #omen.on{opacity:1;filter:blur(0);transform:translateY(-50%) scale(1.015);}
+  .pair .half{
+    width:74px;height:96px;cursor:pointer;position:relative;
+    background:linear-gradient(178deg,#fdfbf6,#eae3d2);
+    border:1px solid #bdb39c;
+    display:flex;align-items:flex-end;justify-content:center;
+    font-size:10.5px;letter-spacing:.1em;color:var(--sumi2);padding-bottom:7px;
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif;
+    transition:transform .35s ease, box-shadow .35s ease, opacity .35s ease;
+    box-shadow:0 2px 6px rgba(60,54,40,.14);
+  }
+  .pair button.half{font-family:"Hiragino Kaku Gothic ProN",sans-serif;}
+  .pair.illustrated{
+    width:min(88vw,410px);height:min(31vh,224px);gap:0;
+    background-position:center;background-repeat:no-repeat;background-size:contain;
+    filter:drop-shadow(0 5px 9px rgba(48,43,32,.19));
+  }
+  .pair.illustrated .half{
+    flex:1;width:auto;height:100%;padding:0 5px 7px;
+    align-items:flex-end;background:rgba(255,255,255,.015);
+    border:1px solid transparent;box-shadow:none;color:var(--sumi);
+  }
+  .pair.illustrated .half:hover{background:rgba(196,173,94,.09);border-color:rgba(196,173,94,.45);}
+  .pair.illustrated .half:focus-visible{outline:2px solid var(--beni);outline-offset:2px;}
+  .pair.illustrated .choice-label{
+    min-width:52px;padding:5px 8px;background:rgba(253,251,245,.9);
+    border:1px solid rgba(189,179,156,.9);box-shadow:0 2px 5px rgba(40,36,28,.14);
+    line-height:1.25;text-align:center;pointer-events:none;
+  }
+  .pair.mizu-pair{background-image:url("sakasagoto-assets-illustrated/sakasa-mizu-v2.webp");}
+  .pair.eri-pair{background-image:url("sakasagoto-assets-illustrated/kyokatabira-open-v2.webp");}
+  /* 正面から見た衣の左側は、着る人の右身頃。身体基準の左右に合わせて配置する。 */
+  .pair.eri-pair .half[data-k="a"]{order:2;}
+  .pair.eri-pair .half[data-k="b"]{order:1;}
+  .pair .half.taken{transform:translateY(-14px);box-shadow:0 10px 18px rgba(60,54,40,.2);}
+  .pair.illustrated .half.taken{background:rgba(196,173,94,.14);border-color:var(--kiku);}
+  /* 明け方、触れたのと逆の身頃が動く場面。触れた側にも必ず反応を返さないと、
+     「クリックを取り違えた不具合」に見えて、怪異として読めなくなる。 */
+  .pair .half.touched{animation:touched .55s ease;}
+  @keyframes touched{
+    0%{transform:translateY(0) scale(1);}
+    22%{transform:translateY(3px) scale(.95);filter:brightness(.9);}
+    100%{transform:translateY(0) scale(1);}
+  }
+  .pair .half.first::after{content:"一";position:absolute;top:6px;left:50%;transform:translateX(-50%);
+    font-size:12px;color:var(--kiku);}
+  .pair .half.second::after{content:"二";position:absolute;top:6px;left:50%;transform:translateX(-50%);
+    font-size:12px;color:var(--kiku);}
+  /* 方位 */
+  #compass{position:absolute;top:8px;left:10px;font-size:10px;letter-spacing:.1em;color:var(--sumi2);
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif;opacity:.75;}
+  #compass:not(:empty)::after{content:" ↑";font-size:13px;}
+  #zori-guide{position:absolute;z-index:4;right:9px;top:9px;bottom:9px;width:34px;
+    display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+    font:10px/1 "Hiragino Kaku Gothic ProN",sans-serif;color:var(--sumi2);letter-spacing:.08em;}
+  #zori-guide[hidden]{display:none;}
+  #zori-guide::before{content:"";position:absolute;left:50%;top:22px;bottom:22px;border-left:1px dashed rgba(74,70,61,.32);}
+  #zori-guide span{position:relative;z-index:1;min-width:28px;padding:4px 3px;text-align:center;
+    background:rgba(253,251,245,.84);border:1px solid rgba(189,179,156,.72);}
+  #zori-in::after{content:" ↑";}#zori-out::after{content:" ↓";}
+  #hint{position:absolute;bottom:8px;left:0;right:0;text-align:center;
+    font-size:10.5px;letter-spacing:.1em;color:var(--sumi2);opacity:.72;
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif;}
+
+  /* 描画される品 */
+  .artifact-img{display:block;width:min(76vw,330px);height:auto;user-select:none;pointer-events:none;}
+  .byobu-art{filter:drop-shadow(0 5px 8px rgba(60,54,40,.22));}
+  /* 縦長の布団と草履は、回転後も座敷の上下へ触れない寸法にする。 */
+  .futon-art{width:min(30vw,124px);filter:drop-shadow(0 5px 8px rgba(60,54,40,.2));}
+  .zori-art{width:min(27vw,128px);filter:drop-shadow(0 4px 7px rgba(60,54,40,.2));}
+  .meshi{width:min(44vw,180px);aspect-ratio:1;position:relative;
+    background:url("sakasagoto-assets-illustrated/makura-meshi.webp") center/contain no-repeat;
+    filter:drop-shadow(0 4px 7px rgba(60,54,40,.18));}
+  /* 箸の根元は茶碗の胴ではなく飯の山へ置く。小画面でも短くならない長さを保つ。 */
+  .meshi .hashi{position:absolute;z-index:2;left:50%;bottom:58%;width:72px;height:clamp(132px,38vw,150px);
+    background:url("sakasagoto-assets-illustrated/hashi-pair.webp") center bottom/contain no-repeat;
+    transform-origin:50% 100%;transform:translateX(-50%) rotate(var(--hashi,78deg));
+    transition:transform .5s ease;filter:drop-shadow(0 1px 1px rgba(45,31,20,.25));}
+  /* 同じ飯椀画像から米の手前側だけを再度重ね、箸の差し込み部分を米粒の中へ隠す。 */
+  .meshi::after{content:"";position:absolute;z-index:3;inset:0;pointer-events:none;
+    background:url("sakasagoto-assets-illustrated/makura-meshi.webp") center/contain no-repeat;
+    clip-path:ellipse(34% 10% at 50% 42%);}
+
+  .kakocho{width:min(76vw,330px);height:min(29vh,198px);position:relative;
+    background:url("sakasagoto-assets-illustrated/kakocho.webp") center/contain no-repeat;
+    filter:drop-shadow(0 5px 8px rgba(60,54,40,.22));}
+  /* 縦書きは右頁の右端から始め、次の名はその左の列へ送る。 */
+  .kakocho .inscription{position:absolute;left:71.5%;top:45px;max-height:108px;overflow:hidden;transform:translateX(-50%);color:#493a2e;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1px;
+    font-size:16px;line-height:1.08;text-shadow:0 1px 0 rgba(255,255,255,.4);transition:left .45s ease,color .45s ease;}
+  .kakocho .inscription.en{font-family:Georgia,"Times New Roman",serif;}
+  .kakocho .glyph{display:block;font-style:normal;writing-mode:horizontal-tb;text-orientation:upright;
+    opacity:0;transform:translateY(3px) scale(.94);filter:blur(2px);transition:opacity .42s ease,transform .42s ease,filter .42s ease;}
+  .kakocho .glyph.on{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
+  .kakocho.has-second .inscription.primary{left:71.5%;}
+  .kakocho .inscription.second{left:65%;color:#8f3a3a;}
+  .kakocho.has-second .inscription.second{left:65%;}
+  .kakocho.writing{animation:kakocho-ink .9s ease;}
+  @keyframes kakocho-ink{0%,100%{filter:drop-shadow(0 5px 8px rgba(60,54,40,.22));}
+    35%{filter:drop-shadow(0 7px 11px rgba(85,31,31,.34)) brightness(.9);}}
+
+  .oke{display:flex;gap:26px;}
+
+  /* 書付 */
+  #kakitsuke{
+    width:100%;flex:0 0 auto;max-height:118px;overflow-y:auto;
+    background:linear-gradient(178deg,#fdfbf6 0%, #f3ede0 100%);
+    border:1px solid #c9c0ab;
+    padding:10px 13px;
+    font-size:12.5px;line-height:1.95;letter-spacing:.05em;
+    box-shadow:inset 0 0 14px rgba(150,138,110,.13);
+  }
+  #kakitsuke .kh{font-size:10px;letter-spacing:.18em;color:#a2967c;
+    border-bottom:1px solid #d8cfba;padding-bottom:3px;margin-bottom:5px;
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif;}
+  #kakitsuke .li{display:flex;gap:7px;color:var(--sumi2);}
+  #kakitsuke .li .n{color:#a2967c;min-width:1.6em;}
+  #kakitsuke .li.done{color:#a9a091;text-decoration:line-through;text-decoration-color:#c3b9a3;}
+  #kakitsuke .li.added{color:var(--beni);}
+  #kakitsuke .li.added .n{color:var(--beni);}
+
+  /* 文 */
+  #note{
+    width:100%;flex:1 1 auto;min-height:0;overflow-y:auto;
+    background:linear-gradient(178deg,#fdfbf6,#f5efe3);
+    border:1px solid #cfc6b1;padding:13px 16px;
+    font-size:13.5px;line-height:2.0;letter-spacing:.03em;color:var(--sumi);
+  }
+  /* 経帷子・身頃など、読みの難しい語にはふりがなを振る */
+  ruby{ruby-align:center;}
+  ruby rt{font-size:.46em;letter-spacing:.02em;color:#8b8272;font-weight:400;}
+  #note p{margin-bottom:.8em;}
+  #note p:last-child{margin-bottom:0;}
+  #note .v{color:var(--beni);}
+  #note .q{color:var(--sumi2);}
+  #note .culture-note{
+    margin:.9em 0 0;padding:10px 12px 10px 13px;
+    background:linear-gradient(178deg,rgba(228,218,193,.62),rgba(240,233,216,.72));
+    border-left:2px solid var(--kiku);color:var(--sumi2);
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif;font-size:11.5px;line-height:1.75;
+  }
+  #note .culture-note b{color:var(--sumi);font-weight:600;letter-spacing:.08em;}
+  #note details.culture-note summary{cursor:pointer;color:var(--sumi);font-weight:600;letter-spacing:.08em;}
+  #note details.culture-note .culture-body{padding-top:7px;}
+  #note p.reveal{opacity:0;}
+  #note p.reveal.on{opacity:1;transition:opacity 1.1s ease;}
+
+  #deck{
+    width:100%;display:flex;gap:9px;flex-wrap:wrap;align-items:center;justify-content:center;
+    padding:4px 2px 2px;flex:0 0 auto;
+  }
+  #deck .fuda{padding:10px 18px;font-size:12.5px;}
+  html[lang="en"] #deck .fuda{padding:10px 13px;font-size:11.5px;letter-spacing:.05em;text-indent:0;}
+
+  /* ===== 結末：縦書きの題札 ===== */
+  #veil{
+    position:fixed;inset:0;background:#f6f2e8;opacity:0;pointer-events:none;
+    transition:opacity 1.1s ease;z-index:80;
+  }
+  #veil.on{opacity:1;}
+  #endcard{
+    position:fixed;left:50%;top:50%;z-index:85;
+    transform:translate(-50%,-50%) scale(.94);
+    writing-mode:vertical-rl;
+    padding:26px 18px;
+    border-left:1px solid rgba(38,36,31,.35);border-right:1px solid rgba(38,36,31,.35);
+    font-size:clamp(20px,4.6vw,30px);letter-spacing:.42em;
+    color:var(--sumi);
+    opacity:0;pointer-events:none;text-align:center;max-height:74vh;
+    transition:opacity 1.3s ease, transform 1.3s ease;
+  }
+  #endcard.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+  #room.ending #hourbar,
+  #room.ending #kakitsuke{display:none;}
+  #room.ending #zashiki{height:min(30vh,220px);}
+
+  #topbar-right{position:fixed;top:12px;right:14px;z-index:70;display:flex;gap:8px;}
+  #topbar-right .fuda{padding:7px 13px;font-size:11px;letter-spacing:.08em;text-indent:0;white-space:nowrap;}
+  #home-btn{position:fixed;top:12px;left:14px;z-index:70;padding:7px 13px;font-size:11px;
+    letter-spacing:.08em;text-indent:0;display:none;}
+  ::-webkit-scrollbar{width:7px;}
+  ::-webkit-scrollbar-thumb{background:#c6bda8;}
+
+  @media (max-width:480px){
+    #s-title h1{font-size:clamp(34px,13vw,54px);letter-spacing:.16em;text-indent:.16em;}
+    #s-title .sub{letter-spacing:.14em;}
+    #hourbar{font-size:9.5px;letter-spacing:.05em;}
+    #hourbar b{font-size:12px;letter-spacing:.03em;}
+    #endcard{font-size:clamp(16px,5.2vw,24px);letter-spacing:.3em;padding:20px 14px;}
+    .story{padding:26px 20px 22px;font-size:14px;line-height:2.1;}
+    #zashiki{height:clamp(205px,36vh,245px);}
+    #zashiki.meshi-stage{height:clamp(255px,42vh,285px);}
+    .pair.illustrated{width:92vw;height:min(28vh,196px);}
+    /* 専用寸法を持つ縦長画像を、横長画像向けの共通幅で上書きしない。 */
+    .artifact-img:not(.futon-art):not(.zori-art){width:min(82vw,300px);}
+  }
+</style>
+</head>
+<body>
+
+<button id="home-btn" class="fuda">戻る</button>
+<div id="topbar-right">
+  <button id="lang-btn" class="fuda">English</button>
+  <button id="snd-btn" class="fuda">音　入</button>
+</div>
+
+<section id="s-title" class="on">
+  <h1>逆さ事</h1>
+  <div class="rule"></div>
+  <div class="sub">通夜の前夜</div>
+  <div id="name-entry">
+    <label id="player-name-label" for="player-name"></label>
+    <input id="player-name" type="text" maxlength="12" autocomplete="off" spellcheck="false" aria-describedby="name-privacy name-error">
+    <div id="name-meta"><span id="name-privacy"></span><span id="name-error" aria-live="polite"></span></div>
+  </div>
+  <button id="btn-start" class="fuda">座敷へ上がる</button>
+  <button id="btn-resume" class="fuda">夜の続きへ</button>
+  <div id="ending-progress"></div>
+  <div id="marks"></div>
+  <div id="reset-zone"><button id="btn-reset" class="fuda">書付を焼いて、最初から</button></div>
+</section>
+
+<section id="s-story">
+  <div class="story" id="story"></div>
+</section>
+
+<section id="s-work">
+  <div id="room">
+    <div id="hourbar">
+      <span id="hb-clock"></span><b id="hb-hour"></b>
+      <button id="hb-eri" type="button" aria-expanded="false">
+        <span id="eri-label"></span>
+        <span class="eri" aria-hidden="true"><i class="eri-l"></i><i class="eri-r"></i></span>
+        <span class="eri-scale" aria-hidden="true"><span id="eri-live"></span><b class="eri-track"><i></i></b><span id="eri-dead"></span></span>
+      </button>
+      <span id="act-label"></span>
+    </div>
+    <div id="zashiki">
+      <div class="tatami-edge"></div>
+      <div id="tableau" aria-hidden="true">
+        <i class="tableau-item byobu"></i><i class="tableau-item mizu"></i><i class="tableau-item eri"></i>
+        <i class="tableau-item meshi"></i><i class="tableau-item futon"></i><i class="tableau-item zori"></i><i class="tableau-item kakocho"></i>
+      </div>
+      <div id="compass"></div>
+      <div id="zori-guide" hidden><span id="zori-in"></span><span id="zori-out"></span></div>
+      <div id="obj"></div>
+      <div id="omen" aria-live="polite"></div>
+      <div id="hint"></div>
+    </div>
+    <div id="kakitsuke">
+      <div class="kh" id="kk-head"></div>
+      <div id="kk-rows"></div>
+    </div>
+    <div id="note"></div>
+    <div id="deck"></div>
+  </div>
+</section>
+
+<div id="eri-help" role="dialog" aria-modal="false" hidden>
+  <button id="eri-help-close" type="button" aria-label="閉じる">×</button>
+  <div id="eri-help-text"></div>
+</div>
+<div id="misstep-vignette" aria-hidden="true"></div>
+<div id="ending-book" hidden>
+  <div class="ending-book-sheet" role="dialog" aria-modal="true" aria-labelledby="ending-book-title">
+    <button id="ending-book-close" type="button">×</button>
+    <div id="ending-book-kicker"></div>
+    <h2 id="ending-book-title"></h2>
+    <div id="ending-book-body"></div>
+    <button id="ending-book-done" class="fuda" type="button"></button>
+  </div>
+</div>
+
+<div id="veil"></div>
+<div id="endcard"></div>
+
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const J=(ja,en)=>({ja,en});
+
+/* ================= 言語 ================= */
+let lang="ja",playerName="";
+try{ const s=localStorage.getItem("sakasa_lang"); if(s==="en"||s==="ja") lang=s; }catch(e){}
+const L=x=>{
+  if(x==null) return x;
+  if(typeof x==="object" && ("ja" in x || "en" in x)) return lang==="en"?x.en:x.ja;
+  return x;
+};
+const graphemes=s=>{
+  if(typeof Intl!=="undefined"&&Intl.Segmenter){
+    const seg=new Intl.Segmenter(undefined,{granularity:"grapheme"});
+    return [...seg.segment(s)].map(x=>x.segment);
+  }
+  return [...s];
+};
+const reverseText=s=>graphemes(s).reverse().join("");
+const GRANDMOTHER_NAME=J("篠崎絹","KINU");
+const escHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+const UI={
+  pageTitle:J("逆さ事 ｜ 怪談ノベル","Reversed Rites | A Ghost Story"),
+  home:J("戻る","Title"),
+  soundOn:J("音声 ON","Sound: ON"),
+  soundOff:J("音声 OFF","Sound: OFF"),
+  soundBlocked:J("音声を許可","Enable Sound"),
+  langBtn:J("English","日本語"),
+  title:J("逆さ事","Reversed Rites"),
+  subtitle:J("通夜の前夜","The Night Before the Wake"),
+  start:J("座敷へ上がる","Enter the Room"),
+  resume:J("夜の続きへ","Continue the Night"),
+  playerNameLabel:J("通夜に記帳する名","Name for the wake register"),
+  playerNamePlaceholder:J("あなたの名前","Your name"),
+  playerNamePrivacy:J("このプレイ中だけ使用","Used only for this playthrough"),
+  playerNameRequired:J("名前を記してください","Enter a name"),
+  endingProgress:J("結末の記録　{n}/4","Ending Record  {n}/4"),
+  endingBookKicker:J("祖母の書付　裏","THE REVERSE OF GRANDMOTHER'S NOTE"),
+  endingBookDone:J("帳を閉じる","Close the Record"),
+  resetDefault:J("書付を焼いて、最初から","Burn the Note — Start Over"),
+  resetConfirm:J("本当に焼く？（もう一度）","Really burn it? (tap again)"),
+  resetDone:J("焼きました","Burned."),
+  markUnknown:J("？","?"),
+  begin:J("枕元に座る","Sit at the Pillow"),
+  kkHead:J("祖母の書付　通夜の作法","Grandmother's Note — Rites of the Wake"),
+  eriLabel:J("あなたの衿","Your collar"),
+  eriLiving:J("生","L"),
+  eriDead:J("死","D"),
+  eriHelp:J(
+    "主人公が逆さ事に染まる度合い。生者の右前から、死者の左前へ近づいていく。",
+    "How deeply the protagonist has absorbed the reversed rites. It shifts from the living person’s migi-mae toward the dead person’s hidari-mae."
+  ),
+  eriHelpFirst:J("なぜか、さっきより衿の合わせが違って見える。","Somehow, the collar no longer seems to close the way it did before."),
+  cultureSummary:J("しきたりを読む","Read about the custom"),
+  acts:[J("一　教わる","I · LEARNING"),J("二　慣れる","II · REMEMBERING"),J("三　書き足される","III · THE ADDED LINES"),J("四　戻す","IV · SETTING THINGS RIGHT")],
+  close:J("閉じる","Close"),
+  confirm:J("これでよい","This Is Right"),
+  cont:J("つづける","Continue"),
+  more:J("・・・","…"),
+  leave:J("家を出る","Leave the House"),
+  clickHintFlip:J("触れて、向きを変える","Touch it to change which way it faces"),
+  clickHintOrder:J("先に置くほうから、順に触れる","Touch them in order — the one laid first, first"),
+  clickHintRot:J("触れるたび、回る","Each touch turns it"),
+  north:J("北","N"),
+  inside:J("内","IN"),
+  outside:J("外","OUT"),
+  marks:{
+    modosu:J("戻ス","Restored"),
+    hidarimae:J("左前","Hidari-mae"),
+    nokosu:J("残ス","Left Behind"),
+    maneku:J("招ク","Beckoned")
+  }
+};
+function setLang(v){
+  if(!$("ending-book").hidden) closeEndingBook();
+  lang=v;
+  try{ localStorage.setItem("sakasa_lang",lang); }catch(e){}
+  applyStaticUI();
+}
+function applyStaticUI(){
+  document.documentElement.lang=lang;
+  document.title=L(UI.pageTitle);
+  $("home-btn").textContent=L(UI.home);
+  updateSoundButton();
+  $("lang-btn").textContent=L(UI.langBtn);
+  document.querySelector("#s-title h1").textContent=L(UI.title);
+  document.querySelector("#s-title .sub").textContent=L(UI.subtitle);
+  $("btn-start").textContent=L(UI.start);
+  $("btn-resume").textContent=L(UI.resume);
+  $("player-name-label").textContent=L(UI.playerNameLabel);
+  $("player-name").placeholder=L(UI.playerNamePlaceholder);
+  $("name-privacy").textContent=L(UI.playerNamePrivacy);
+  if($("player-name").getAttribute("aria-invalid")==="true") $("name-error").textContent=L(UI.playerNameRequired);
+  if(!resetArmed) $("btn-reset").textContent=L(UI.resetDefault);
+  $("kk-head").textContent=L(UI.kkHead);
+  $("eri-label").textContent=L(UI.eriLabel);
+  const secondSight=loadMarks().length>0;
+  document.documentElement.classList.toggle("second-sight",secondSight);
+  $("eri-live").textContent=secondSight?L(UI.eriLiving):"";
+  $("eri-dead").textContent=secondSight?L(UI.eriDead):"";
+  $("eri-help-text").textContent=L(secondSight?UI.eriHelp:UI.eriHelpFirst);
+  $("eri-help-close").setAttribute("aria-label",L(UI.close));
+  $("hb-eri").setAttribute("aria-label",L(UI.eriLabel)+"。"+L(secondSight?UI.eriHelp:UI.eriHelpFirst));
+  $("zori-in").textContent=L(UI.inside);
+  $("zori-out").textContent=L(UI.outside);
+  $("ending-book-kicker").textContent=L(UI.endingBookKicker);
+  $("ending-book-close").setAttribute("aria-label",L(UI.close));
+  $("ending-book-done").textContent=L(UI.endingBookDone);
+  const showingFuton=!!$("obj").querySelector(".futon-art");
+  const showingZori=!!$("obj").querySelector(".zori-art");
+  $("compass").textContent=showingFuton?L(UI.north):"";
+  $("zori-guide").hidden=!showingZori;
+  renderMarks();
+  renderKakitsuke();
+  renderTableau();
+  if(state.started && !state.ended && RITES[state.idx]){
+    const R=RITES[state.idx];
+    $("hb-clock").textContent=L(R.clock);
+    $("hb-hour").textContent=L(R.hour);
+  }
+}
+
+/* ==========================================================
+   物語の芯（矛盾を出さないための設計）
+   ・逆さ事＝死者に「生者の作法が通じない」と分からせるための儀礼。
+     すべて逆にすることで、死者は自分があちら側だと理解し、去る。
+   ・一つでも生者のやり方でやると、祖母は自分をまだ生者だと思い込む（残ス）。
+   ・逆さ事を自分にまで及ぼすと、生者の側があちらの作法になる（左前）。
+   ・祖母は一人で行きたくない。だから書付に項目を書き足し、孫を巻き込もうとする。
+   ・逆さ事は家の中限り。朝までに全部戻さねばならない。
+   ========================================================== */
+
+const RITES=[
+/* --- 一.屏風 --- */
+{
+  key:"byobu", clock:J("午後八時","8 p.m."), hour:J("戌の刻","Hour of the Dog"),
+  line:J("枕屏風、逆さに立つべし","The pillow screen shall stand inverted"),
+  culture:J(
+    "逆さ屏風（さかさびょうぶ）は、枕元の屏風を天地逆さにする葬送習俗。生者の日常と死者の領域を分ける「逆さ事」の一つとされるが、行い方には地域差がある。",
+    "Sakasa-byōbu is the funeral custom of placing a bedside folding screen upside down. It is one form of sakasa-goto, marking a boundary between everyday life and the realm of the dead. Practice varies by region."
+  ),
+  pre:[
+    J("書付の一行目を、伯母が読み上げた。","My aunt read out the first line of the note."),
+    J("「枕屏風、逆さに立つべし」","\"The pillow screen shall stand inverted.\""),
+    J("屏風は、いま正しく立っている。金地に、松。","The screen stands as it should just now. Gold ground, a pine tree.")
+  ],
+  kind:"rot2", start:0, want:180,
+  ok:[
+    J("屏風を逆さに立てた。松が、根を上にして生えている。","I stood the screen upside down. The pine grows with its roots in the air."),
+    J("「そう。それでいい」と伯母が言った。","\"Good,\" my aunt said. \"That's right.\"")
+  ],
+  ng:[
+    J("正しく立てたまま、手を離した。","I let go of it, still standing the right way up."),
+    J("伯母が息を呑んだ。「――戻しな。早く」","My aunt caught her breath. \"Turn it. Now.\"")
+  ]
+},
+/* --- 二.逆さ水 --- */
+{
+  key:"mizu", clock:J("午後十時","10 p.m."), hour:J("亥の刻","Hour of the Boar"),
+  line:J("逆さ水、水に湯を足すべし","Reversed water: add the hot to the cold"),
+  culture:J(
+    "逆さ水（さかさみず）は、湯灌で使うぬるま湯を、先に水を張り、あとから湯を加えて作る作法。普段の温度調整と順序を逆にする。湯灌は故人の身体を洗い清め、旅立ちの支度を整えること。",
+    "Sakasa-mizu is water prepared for yukan, the washing and preparation of the deceased: cold water is placed first, then hot water is added. The order reverses the ordinary way of cooling hot water."
+  ),
+  pre:[
+    J("湯灌の支度。桶がふたつ並んでいる。","Preparations for the washing. Two pails stand side by side."),
+    J("「普通はね、熱い湯に水を足して、ぬるくするだろう」と伯母が言った。","\"Normally,\" my aunt said, \"you add cold water to hot, to bring it down.\""),
+    J("「逆さ事では、水を張ってから、湯を足す」","\"In the reversed rites, you fill it with cold first. Then you add the hot.\"")
+  ],
+  kind:"order", a:J("水","Cold"), b:J("湯","Hot"), want:["a","b"],
+  ok:[
+    J("桶に水を張り、あとから湯を足した。","I filled the pail with cold water, and added the hot afterwards."),
+    J("指を入れる。ぬるい。人肌より、少しだけ低い。","I put a finger in. Tepid. A little below the warmth of skin.")
+  ],
+  ng:[
+    J("湯を張り、水で埋めた。生きている者の手つきだった。","I filled it with hot and cut it with cold — the way one does for the living."),
+    J("祖母の指先が、湯気のほうへ、わずかに動いた気がした。","I thought I saw my grandmother's fingertips shift, very slightly, towards the steam.")
+  ]
+},
+/* --- 三.左前 --- */
+{
+  key:"eri", clock:J("午前零時","Midnight"), hour:J("子の刻","Hour of the Rat"),
+  line:J("<ruby>経帷子<rt>きょうかたびら</rt></ruby>、左前に着すべし","The shroud shall be dressed hidari-mae"),
+  culture:J(
+    "左右は着る人を基準に見る。生者の右前は、右身頃を先に体へ当て、左身頃を上に重ねる。死装束の左前はその逆で、左身頃を先に、右身頃を上にする。",
+    "Directions are the wearer’s, not the viewer’s. For the living, migi-mae means the wearer’s right panel goes against the body first and the left panel closes over it. A funerary shroud reverses this: hidari-mae, with the left panel first and the right panel on top."
+  ),
+  pre:[
+    J("白い<ruby>経帷子<rt>きょうかたびら</rt></ruby>を広げる。左右の<ruby>身頃<rt>みごろ</rt></ruby>。","I spread out the white shroud. Two panels, left and right."),
+    J("生きている者は、右の<ruby>身頃<rt>みごろ</rt></ruby>を先に体へ当てて、左を上に重ねる。","The living lay the right panel against the body first, and fold the left over it."),
+    J("逆さ事は、その逆。","The reversed rites are the reverse of that.")
+  ],
+  kind:"order", a:J("左の<ruby>身頃<rt>みごろ</rt></ruby>","Left panel"), b:J("右の<ruby>身頃<rt>みごろ</rt></ruby>", "Right panel"), want:["a","b"],
+  ok:[
+    J("左を先に当て、右を上に重ねた。左前。","I laid the left panel first, and folded the right over it. Hidari-mae."),
+    J("襟元が、見慣れない向きに合わさっている。","The collar closes in a direction I have never seen on a living person.")
+  ],
+  ng:[
+    J("右を先に当ててしまった。生きている者の着せ方だった。","I laid the right panel first. The way one dresses the living."),
+    J("胸のあたりが、ゆっくりと上下したように見えた。","The chest seemed to rise, and fall, once.")
+  ]
+},
+/* --- 四.枕飯 --- */
+{
+  key:"meshi", clock:J("午前二時","2 a.m."), hour:J("丑の刻","Hour of the Ox"),
+  line:J("枕飯、箸を立つべし","In the pillow rice, the chopsticks shall stand"),
+  culture:J(
+    "枕飯（まくらめし）は、故人の枕元に供える一膳の飯。箸を垂直に立てる形は葬送を強く連想させるため、日常の食卓では避けられる。逆さ事とは別に語られる地域もある。",
+    "Makura-meshi is a bowl of rice offered beside the deceased. Chopsticks are placed upright, a shape so closely associated with funerals that it is avoided at ordinary meals. It is not classified as sakasa-goto everywhere."
+  ),
+  pre:[
+    J("茶碗に飯を山盛りにする。","I heap the rice high in the bowl."),
+    J("箸を、垂直に。","The chopsticks go in upright."),
+    J("子供の頃、ふざけてこれをやって、ひどく叱られたことを思い出した。叱ったのは祖母だった。","When I was a child I did this once as a joke and was scolded badly for it. It was my grandmother who scolded me.")
+  ],
+  kind:"rot2", start:78, want:0, objKind:"meshi",
+  ok:[
+    J("箸を、飯に突き立てた。","I drove the chopsticks upright into the rice."),
+    J("誰にも叱られなかった。","No one scolded me.")
+  ],
+  ng:[
+    J("箸を、茶碗の縁に揃えて置いた。行儀のいい置き方だった。","I laid the chopsticks neatly across the rim of the bowl. Good manners."),
+    J("背中で、畳が鳴った。振り返ると、伯母は隣の間で寝入っていた。","Behind me the tatami creaked. When I turned, my aunt was asleep in the next room.")
+  ]
+},
+/* --- 五.北枕 --- */
+{
+  key:"kitamakura", clock:J("午前三時","3 a.m."), hour:J("丑の刻","Hour of the Ox"),
+  line:J("北枕に直すべし","The pillow shall be turned to the north"),
+  culture:J(
+    "北枕（きたまくら）は、故人の頭を北へ向けて安置する習慣。釈迦の入滅時の姿にならうという説明が広く知られる。厳密には「逆さ事」そのものではなく、日常で北枕を避ける背景になった葬送作法。",
+    "Kita-makura means laying the deceased with the head to the north, commonly explained as following the Buddha’s posture at death. Strictly speaking, it is a funerary custom rather than a reversal itself; its association with death is why north-facing sleep is often avoided in daily life."
+  ),
+  pre:[
+    J("五行目。「北枕に直すべし」","The fifth line: \"The pillow shall be turned to the north.\""),
+    J("布団は、いま南を枕にしている。","The bedding lies with its pillow to the south just now.")
+  ],
+  kind:"rot2", start:180, want:0, objKind:"futon",
+  ok:[
+    J("布団を回し、枕を北へ向けた。","I turned the bedding until the pillow faced north."),
+    J("祖母の顔が、そのぶんだけ、こちらを向いた。","My grandmother's face turned, by exactly that much, towards me.")
+  ],
+  ng:[
+    J("枕の向きを、南のままにした。","I left the pillow where it was, facing south."),
+    J("生きている人と、同じ寝かせ方だった。","The way one lays down someone who is sleeping.")
+  ]
+},
+/* --- 六.履物 --- */
+{
+  key:"zori", clock:J("午前四時","4 a.m."), hour:J("寅の刻","Hour of the Tiger"),
+  line:J("履物、外を向くべし","The sandals shall face outwards"),
+  culture:J(
+    "日常の玄関では、脱いだ履物の向きを直し、爪先を外へ向けて揃えるのが一般的な作法。本作の草履は、脱いだ履物を整える場面ではなく、故人が家を出るためにこれから履くものを置く、この家独自のしきたりとして描いている。葬送習俗には地域・宗派・家による違いがある。",
+    "In an ordinary Japanese entrance, it is customary to turn removed footwear neatly so the toes face the door. This scene is different: the sandals have not been removed. They are being set out for the deceased to put on and leave, a rule peculiar to this household. Funeral customs vary by region, sect, and family."
+  ),
+  pre:[
+    J("土間に、祖母の草履を出す。","I set out my grandmother's sandals in the earthen entryway."),
+    J("これは、脱いだ履物を揃える作法ではない。祖母が、これから履く草履だ。","This is not about arranging footwear after taking it off. These are the sandals Grandmother is meant to put on."),
+    J("「家へ上がる者には内向き。出ていく者には外向き」","\"Inwards for one entering the house. Outwards for one leaving it.\"")
+  ],
+  kind:"rot2", start:0, want:180, objKind:"zori",
+  ok:[
+    J("草履の爪先を、外へ向けた。","I turned the toes of the sandals towards the outside."),
+    J("戸の向こうは、まだ暗い。","Beyond the door it was still dark.")
+  ],
+  ng:[
+    J("爪先を、内へ向けたままにした。","I left the toes pointing inwards."),
+    J("祖母が、この家へ上がってくる置き方だった。","I had set them for Grandmother to come into the house.")
+  ]
+}
+];
+
+/* 書付に増えていく行（祖母の筆跡） */
+const ADDED=[
+  { key:"na1",
+    line:J("過去帳に、祖母の俗名を逆さに記すべし","In the family death register, write Grandmother's secular name in reverse"),
+    culture:J("過去帳は、亡くなった人の戒名・法名、俗名、没年月日などを記す家の記録。生きている人の名を記す作法はない。ここから先は、この家の書付だけが命じること。","A kakocho is a family death register recording the dead—their Buddhist name, secular name, date of death, and related details. There is no custom of entering a living person's name. What follows belongs only to this house's note."),
+    pre:[
+      J("書付を見ると、七行目があった。","When I looked at the note, there was a seventh line."),
+      J("さっきまで、六行で終わっていたはずだった。","It had ended at six lines a moment ago."),
+      J("同じ字だった。祖母の字だった。","The same hand. My grandmother's hand."),
+      J("「過去帳に、祖母の俗名を逆さに記すべし」","\"In the family death register, write Grandmother's secular name in reverse.\"")
+    ],
+    yes:J("過去帳に記す","Write in the register"), no:J("記さない","Leave it unwritten"),
+    okText:[
+      J("過去帳を開き、祖母の俗名――篠崎絹を、下から上へ記した。","I opened the family death register and wrote my grandmother Kinu's secular name from the bottom upwards."),
+      J("墨は、乾くのがひどく早かった。","The ink dried very quickly.")
+    ],
+    noText:[
+      J("筆を置いた。この行は、伯母が読み上げていない。","I set the brush down. My aunt had not read this line aloud."),
+      J("書付を裏返して、見ないことにした。","I turned the note face down and decided not to look at it.")
+    ]
+  },
+  { key:"na2",
+    line:J("次の頁に、生者の名も記すべし","On the next page, write the name of the living one"),
+    pre:[
+      J("八行目が増えていた。","An eighth line had appeared."),
+      J("「次の頁に、生者の名も記すべし」","\"On the next page, write the name of the living one.\""),
+      J("もう一人。この座敷にいるのは、私と、祖母だけだった。","The other one. There was no one in that room but my grandmother and me.")
+    ],
+    yes:J("自分の名を書く","Write my own name"), no:J("書付を伏せる","Turn the note face down"),
+    okText:[
+      J("過去帳の次の頁に、自分の名を下から上へ書いた。","On the next page of the death register, I wrote my own name from the bottom upwards."),
+      J("書き終えた瞬間、線香が二本になっていた。一本は、立てた覚えがない。","The moment I finished, there were two sticks of incense burning. I had only set one.")
+    ],
+    noText:[
+      J("書付を伏せて、その上に手を置いた。","I turned the note face down and put my hand on top of it."),
+      J("紙の下で、筆の走る音がした。","Under the paper, I heard a brush moving.")
+    ]
+  }
+];
+
+/* 明け方：戻す作法（操作が反転する） */
+const UNDO=[
+  { key:"u-byobu", objKind:"byobu", kind:"rot2", start:180, want:0, inverted:true,
+    line:J("屏風を、元へ","The screen, back as it was"),
+    pre:[J("屏風に手を伸ばした。","I reached for the screen.")],
+    ok:[J("松が、また空へ向かって伸びている。","The pine reaches up towards the sky again.")],
+    ng:[J("屏風は、逆さのままだった。","The screen stayed upside down.")]
+  },
+  { key:"u-eri", kind:"order", a:J("左の<ruby>身頃<rt>みごろ</rt></ruby>","Left panel"), b:J("右の<ruby>身頃<rt>みごろ</rt></ruby>","Right panel"),
+    want:["b","a"],
+    line:J("衿を、元へ","The collar, back as it was"),
+    pre:[J("<ruby>経帷子<rt>きょうかたびら</rt></ruby>の襟元に、指をかけた。","I put my fingers to the collar of the shroud.")],
+    ok:[J("右前に直した。生きている者の合わせ方に。","I restored migi-mae: the left panel over the right, the way the living wear it.")],
+    ng:[J("左前のままだった。","It stayed hidari-mae.")]
+  },
+  { key:"u-zori", objKind:"zori", kind:"rot2", start:180, want:0, inverted:true,
+    line:J("履物を、元へ","The sandals, back as they were"),
+    pre:[J("土間へ下りた。草履は、外を向いたままだった。","I stepped down into the entryway. The sandals still pointed outwards.")],
+    ok:[J("爪先を、家の内へ向け直した。","I turned the toes back towards the inside of the house.")],
+    ng:[J("草履は、外を向いたままだった。","The sandals stayed pointing out.")]
+  }
+];
+
+/* ================= state ================= */
+const state={
+  idx:0, phase:"rite", added:0, undoIdx:0,
+  utsuri:0, failed:false, wrote1:false, wrote2:false,
+  ended:false, started:false, undoFail:0,
+  /* 夜に各品をどちらの向きで確定したか。明け方の見た目と文章へ引き継ぐ。 */
+  riteResults:{}, restoredResults:{},
+  failedKeys:[], undoFailedKeys:[], checkpoint:"",
+  /* 済んだ作法の数。idx（＝いま取りかかっている作法）と兼用すると、
+     確定した直後の一行に取り消し線が入らず、一つずつ遅れて見える。 */
+  doneN:0, addedDoneN:0, undoDoneN:0
+};
+function loadMarks(){ try{ const v=JSON.parse(localStorage.getItem("sakasa_endings")||"[]"); return Array.isArray(v)?v:[]; }catch(e){ return []; } }
+function saveMark(k){ try{ const v=loadMarks(); if(!v.includes(k)){v.push(k);localStorage.setItem("sakasa_endings",JSON.stringify(v));} }catch(e){} }
+function loadEndingDetails(){ try{ const v=JSON.parse(localStorage.getItem("sakasa_ending_details")||"{}"); return v&&typeof v==="object"?v:{}; }catch(e){ return {}; } }
+function saveEndingDetail(key){
+  try{
+    const details=loadEndingDetails();
+    if(key==="maneku") details.maneku={wroteGrandmother:state.wrote1};
+    if(key==="nokosu") details.nokosu={failedRiteCount:state.failedKeys.length,failedKeys:state.failedKeys.slice(),wroteGrandmother:state.wrote1};
+    if(key==="hidarimae") details.hidarimae={undoFailedKeys:state.undoFailedKeys.slice(),wroteGrandmother:state.wrote1};
+    if(key==="modosu") details.modosu={wroteGrandmother:state.wrote1};
+    localStorage.setItem("sakasa_ending_details",JSON.stringify(details));
+  }catch(e){}
+}
+
+/* 短編でも、再読中に閉じた場合は各作法の開始地点から再開できる。 */
+function saveRun(checkpoint){
+  state.checkpoint=checkpoint;
+  try{localStorage.setItem("sakasa_run_v2",JSON.stringify({playerName,lang,state}));}catch(e){}
+  refreshResume();
+}
+function loadRun(){
+  try{
+    const v=JSON.parse(localStorage.getItem("sakasa_run_v2")||"null");
+    return v&&v.playerName&&v.state&&!v.state.ended?v:null;
+  }catch(e){return null;}
+}
+function clearRun(){try{localStorage.removeItem("sakasa_run_v2");}catch(e){}refreshResume();}
+function refreshResume(){
+  const b=$("btn-resume");if(!b)return;
+  b.style.display=loadRun()?"inline-block":"none";
+}
+
+/* ================= 音 ================= */
+let ctx=null,sndOn=true,bgm=null,melGain=null,melTimer=null,melStep=0,sfx=null,audioBlocked=false;
+/* 陰旋法（D Eb G A Bb）。日本の弔いの音階そのもの。 */
+const MEL=[293.66,311.13,0,293.66,440.00,0,392.00,311.13,0,293.66,0,0,
+           466.16,440.00,0,392.00,311.13,0,293.66,0,0,0];
+function initAudio(){
+  if(ctx && ctx.state!=="closed") return true;
+  try{
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    bgm=ctx.createGain(); bgm.gain.value=0;
+    const lp=ctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=2200; lp.Q.value=.4;
+    bgm.connect(lp); lp.connect(ctx.destination);
+    /* 効果音は必ずこのバスを通す。出力へ直結すると、bgm.gain で絞られている
+       BGM に対して効果音だけが桁違いに大きくなる。 */
+    sfx=ctx.createGain(); sfx.gain.value=.5; sfx.connect(ctx.destination);
+    melGain=ctx.createGain(); melGain.gain.value=1;
+    const dl=ctx.createDelay(); dl.delayTime.value=.5;
+    const fb=ctx.createGain(); fb.gain.value=.3;
+    melGain.connect(bgm); melGain.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(bgm);
+    return true;
+  }catch(e){ ctx=null; return false; }
+}
+function updateSoundButton(){
+  $("snd-btn").textContent=audioBlocked?L(UI.soundBlocked):(sndOn?L(UI.soundOn):L(UI.soundOff));
+  $("snd-btn").setAttribute("aria-pressed",String(sndOn&&!audioBlocked));
+}
+async function unlockAudio(){
+  if(!initAudio()||!ctx){audioBlocked=true;updateSoundButton();return false;}
+  try{
+    if(ctx.state!=="running") await ctx.resume();
+  }catch(e){}
+  audioBlocked=ctx.state!=="running";
+  updateSoundButton();
+  return !audioBlocked;
+}
+/* 尺八風：正弦に息のノイズを混ぜる */
+function melNote(f){
+  if(!f||!ctx||!sndOn) return;
+  const t=ctx.currentTime;
+  const o=ctx.createOscillator(); o.type="sine"; o.frequency.value=f;
+  o.detune.value=Math.random()*7-3.5-state.utsuri*1.1;
+  const lfo=ctx.createOscillator(); lfo.type="sine"; lfo.frequency.value=4.6;
+  const lg=ctx.createGain(); lg.gain.value=4.5;
+  lfo.connect(lg); lg.connect(o.detune); lfo.start(t); lfo.stop(t+2.4);
+  const g=ctx.createGain();
+  g.gain.setValueAtTime(.0001,t);
+  g.gain.exponentialRampToValueAtTime(.078,t+.16);
+  g.gain.exponentialRampToValueAtTime(.0006,t+2.2);
+  /* 息 */
+  const len=Math.floor(.5*ctx.sampleRate);
+  const buf=ctx.createBuffer(1,len,ctx.sampleRate); const d=buf.getChannelData(0);
+  for(let i=0;i<len;i++) d[i]=(Math.random()*2-1);
+  const nsrc=ctx.createBufferSource(); nsrc.buffer=buf;
+  const bp=ctx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=f*2.1; bp.Q.value=1.1;
+  const ng=ctx.createGain();
+  ng.gain.setValueAtTime(.0001,t);
+  ng.gain.exponentialRampToValueAtTime(.011,t+.1);
+  ng.gain.exponentialRampToValueAtTime(.0004,t+.7);
+  nsrc.connect(bp); bp.connect(ng); ng.connect(melGain);
+  nsrc.start(t); nsrc.stop(t+.75);
+  o.connect(g); g.connect(melGain); o.start(t); o.stop(t+2.3);
+}
+function melLoop(){
+  /* 反転が進むと、旋律そのものが逆から流れはじめる */
+  const rev = state.utsuri>=4;
+  const n=MEL.length;
+  const i = rev ? (n-1-(melStep%n)) : (melStep%n);
+  melNote(MEL[i]); melStep++;
+  melTimer=setTimeout(melLoop, 700);
+}
+async function startBGM(){
+  if(!sndOn) return false;
+  if(!await unlockAudio()) return false;
+  const t=ctx.currentTime;
+  bgm.gain.cancelScheduledValues(t);
+  bgm.gain.setValueAtTime(bgm.gain.value,t);
+  bgm.gain.linearRampToValueAtTime(.28,t+1.2);
+  if(sndOn && !melTimer) melLoop();
+  return true;
+}
+/* おりん：長く尾を引く金属の余韻 */
+function rin(delay){
+  if(!ctx||!sndOn) return;
+  const t=ctx.currentTime+(delay||0);
+  const lp=ctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=5200; lp.Q.value=.3;
+  lp.connect(sfx||ctx.destination);
+  const f0=1180;
+  [{r:1,a:.05,d:3.4},{r:2.72,a:.024,d:2.2},{r:5.4,a:.012,d:1.3},{r:.5,a:.02,d:3.8}].forEach(p=>{
+    const o=ctx.createOscillator(); o.type="sine";
+    o.frequency.value=f0*p.r; o.detune.value=Math.random()*5-2.5;
+    const g=ctx.createGain();
+    g.gain.setValueAtTime(.0001,t);
+    g.gain.exponentialRampToValueAtTime(p.a,t+.012);
+    g.gain.exponentialRampToValueAtTime(.0004,t+p.d);
+    o.connect(g); g.connect(lp); o.start(t); o.stop(t+p.d+.1);
+  });
+}
+/* 衣擦れ */
+function kinu(){
+  if(!ctx||!sndOn) return;
+  const t=ctx.currentTime;
+  const len=Math.floor(.34*ctx.sampleRate);
+  const buf=ctx.createBuffer(1,len,ctx.sampleRate); const d=buf.getChannelData(0);
+  for(let i=0;i<len;i++){ const e=i/len; d[i]=(Math.random()*2-1)*Math.sin(Math.PI*e); }
+  const src=ctx.createBufferSource(); src.buffer=buf;
+  const bp=ctx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=3400; bp.Q.value=.8;
+  const g=ctx.createGain(); g.gain.value=.05;
+  src.connect(bp); bp.connect(g); g.connect(sfx||ctx.destination);
+  src.start(t); src.stop(t+.36);
+}
+/* 木の軋み */
+function kishimi(){
+  if(!ctx||!sndOn) return;
+  const t=ctx.currentTime;
+  const o=ctx.createOscillator(); o.type="sawtooth";
+  o.frequency.setValueAtTime(128,t); o.frequency.linearRampToValueAtTime(96,t+.5);
+  const bp=ctx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=430; bp.Q.value=5.5;
+  const g=ctx.createGain();
+  g.gain.setValueAtTime(.0001,t);
+  g.gain.exponentialRampToValueAtTime(.042,t+.08);
+  g.gain.exponentialRampToValueAtTime(.0005,t+.62);
+  o.connect(bp); bp.connect(g); g.connect(sfx||ctx.destination);
+  o.start(t); o.stop(t+.66);
+}
+function ritualTone(freq,delay=.0,dur=.22){
+  if(!ctx||!sndOn)return;const t=ctx.currentTime+delay;
+  const o=ctx.createOscillator(),g=ctx.createGain();o.type="sine";o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(Math.max(38,freq*.64),t+dur);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.032,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g);g.connect(sfx||ctx.destination);o.start(t);o.stop(t+dur+.02);
+}
+function ritualSound(key){
+  if(key==="byobu") return kishimi();
+  if(key==="mizu"){ritualTone(760,0,.18);ritualTone(590,.19,.2);return;}
+  if(key==="eri") return kinu();
+  if(key==="meshi"){ritualTone(1120,0,.08);ritualTone(1040,.1,.08);return;}
+  if(key==="kitamakura"){ritualTone(92,0,.42);return;}
+  if(key==="zori"){ritualTone(128,0,.16);ritualTone(118,.2,.16);return;}
+  kinu();
+}
+$("snd-btn").onclick=async()=>{
+  if(audioBlocked){
+    sndOn=true;
+    if(await startBGM()) rin(.02);
+    return;
+  }
+  sndOn=!sndOn;
+  if(bgm&&ctx){
+    const t=ctx.currentTime;
+    bgm.gain.cancelScheduledValues(t);
+    bgm.gain.setValueAtTime(bgm.gain.value,t);
+    bgm.gain.linearRampToValueAtTime(sndOn ? .28 : 0,t+.35);
+  }
+  updateSoundButton();
+  if(sndOn&&await startBGM()) rin(.02);
+};
+$("lang-btn").onclick=()=>setLang(lang==="ja"?"en":"ja");
+function setEriHelp(open){
+  $("eri-help").hidden=!open;
+  $("hb-eri").setAttribute("aria-expanded",String(open));
+}
+$("hb-eri").onclick=()=>{
+  setEriHelp($("eri-help").hidden);
+};
+$("eri-help-close").onclick=()=>setEriHelp(false);
+document.addEventListener("click",e=>{
+  const box=$("eri-help");
+  if(!box.hidden&&!box.contains(e.target)&&!$("hb-eri").contains(e.target)) setEriHelp(false);
+});
+
+/* ================= 画面 ================= */
+function show(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("on"));
+  $(id).classList.add("on");
+  $("home-btn").style.display=(id==="s-title")?"none":"inline-block";
+  /* 進行中の文章だけ旧言語で残る事故を防ぐ。言語は表紙で選ぶ。 */
+  $("lang-btn").disabled=id!=="s-title";
+  if(id!=="s-work") setEriHelp(false);
+}
+function goHome(){ show("s-title"); state.started=false; setTime("title"); renderMarks(); refreshResume(); }
+$("home-btn").onclick=goHome;
+
+function setTime(t){
+  document.body.classList.remove("time-evening","time-midnight","time-deep","time-omen","time-dawn");
+  if(t!=="title") document.body.classList.add("time-"+t);
+}
+function setAct(n){$("act-label").textContent=L(UI.acts[n]||"");}
+function renderTableau(){
+  const keys=["byobu","mizu","eri","meshi","futon","zori"];
+  keys.forEach((key,i)=>{
+    const el=document.querySelector(`.tableau-item.${key}`);if(!el)return;
+    el.classList.toggle("on",i<state.doneN);
+  });
+  const book=document.querySelector(".tableau-item.kakocho");
+  if(book) book.classList.toggle("on",state.added>0);
+  const hasByobuRestore=Object.prototype.hasOwnProperty.call(state.restoredResults,"byobu");
+  const hasZoriRestore=Object.prototype.hasOwnProperty.call(state.restoredResults,"zori");
+  const byobuDead=hasByobuRestore?!state.restoredResults.byobu:state.riteResults.byobu===true;
+  const zoriDead=hasZoriRestore?!state.restoredResults.zori:state.riteResults.zori===true;
+  const futonDead=state.riteResults.kitamakura===true;
+  $("tableau").style.setProperty("--mini-byobu",byobuDead?"180deg":"0deg");
+  $("tableau").style.setProperty("--mini-zori",zoriDead?"180deg":"0deg");
+  $("tableau").style.setProperty("--mini-futon",futonDead?"0deg":"180deg");
+}
+let omenTimer=null;
+const RITE_OMENS={
+  byobu:J("天井に、松の根の影が一瞬だけ伸びた。","For an instant, the shadow of pine roots spread across the ceiling."),
+  mizu:J("桶の縁に、内側から濡れた指の跡がついた。","Wet fingerprints appeared inside the rim of the tub."),
+  eri:J("空の袖が、誰かの腕を包むように曲がった。","The empty sleeve bent around an arm that was not there."),
+  meshi:J("寝かせた箸の影だけが、飯の上にまっすぐ立った。","Only the chopsticks' shadow stood upright in the rice."),
+  kitamakura:J("布団の中で、頭の位置だけが北へずれた。","Under the bedding, only the head shifted towards the north."),
+  zori:J("草履の先から、濡れた足跡が一歩だけ家へ入った。","One wet footprint stepped into the house from the toes of the sandals.")
+};
+function showRiteOmen(key){
+  const box=$("omen"),line=RITE_OMENS[key];if(!box||!line)return;
+  clearTimeout(omenTimer);box.textContent=L(line);box.classList.remove("on");void box.offsetWidth;box.classList.add("on");
+  omenTimer=setTimeout(()=>box.classList.remove("on"),1700);
+}
+
+let misstepTimer=null;
+function misstepEffect(){
+  const veil=$("misstep-vignette"),room=$("zashiki");
+  clearTimeout(misstepTimer);
+  veil.classList.remove("on");room.classList.remove("misstep");
+  void veil.offsetWidth;
+  veil.classList.add("on");room.classList.add("misstep");
+  misstepTimer=setTimeout(()=>{veil.classList.remove("on");room.classList.remove("misstep");},960);
+}
+
+let endingBookLastFocus=null;
+const ENDING_BOOK_MUTATIONS={
+  modosu:J("足跡は、私の寝室の前で途切れていた。","The footprints ended outside my bedroom."),
+  hidarimae:J("誰が置いたのかは、聞けなかった。","I could not ask who had placed them."),
+  nokosu:J("生きている者を、家に残って見送る声だった？","It was the voice of someone staying home, seeing the living off?"),
+  maneku:J("私の手首をつかんだのは、誰だった？","Whose hand was around my wrist?")
+};
+function closeEndingBook(){
+  $("ending-book").hidden=true;
+  if(endingBookLastFocus&&document.contains(endingBookLastFocus)) endingBookLastFocus.focus();
+  endingBookLastFocus=null;
+}
+function openEndingBook(key){
+  if(!loadMarks().includes(key)) return;
+  const details=loadEndingDetails();
+  const wroteGrandmother=key==="maneku"?(details.maneku?.wroteGrandmother??true):true;
+  const failedRiteCount=key==="nokosu"?(details.nokosu?.failedRiteCount??1):1;
+  const wroteGrandmotherAny=details[key]?.wroteGrandmother??wroteGrandmother;
+  const failedKeys=key==="nokosu"?(details.nokosu?.failedKeys||["mizu"]):[];
+  const undoFailedKeys=key==="hidarimae"?(details.hidarimae?.undoFailedKeys||["u-eri"]):[];
+  const bloodSeverity=key==="modosu"?0:
+    key==="nokosu"?Math.min(3,Math.max(1,failedRiteCount)):
+    key==="hidarimae"?Math.min(3,Math.max(1,undoFailedKeys.length)):3;
+  const data=getEndingData(key,wroteGrandmotherAny,failedRiteCount,failedKeys,undoFailedKeys);
+  const lines=data.b.map(L);
+  /* 誤植ではなく異変として読めるよう、四結末を見た後だけ低確率で変わる。 */
+  if(loadMarks().length===4&&Math.random()<.04) lines[lines.length-1]=L(ENDING_BOOK_MUTATIONS[key]);
+  endingBookLastFocus=document.activeElement;
+  $("ending-book-title").textContent=L(data.t);
+  const body=$("ending-book-body");body.innerHTML="";
+  lines.forEach(line=>{const p=document.createElement("p");p.textContent=line;body.appendChild(p);});
+  const endingBook=$("ending-book");
+  endingBook.className=`ending-${key} blood-${bloodSeverity}`;
+  endingBook.hidden=false;
+  document.querySelector(".ending-book-sheet").scrollTop=0;
+  $("ending-book-close").focus();
+}
+$("ending-book-close").onclick=closeEndingBook;
+$("ending-book-done").onclick=closeEndingBook;
+$("ending-book").addEventListener("click",e=>{if(e.target===$("ending-book")) closeEndingBook();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("ending-book").hidden) closeEndingBook();});
+
+function renderMarks(){
+  const got=loadMarks();
+  const secondSight=got.length>0;
+  document.documentElement.classList.toggle("second-sight",secondSight);
+  $("eri-live").textContent=secondSight?L(UI.eriLiving):"";
+  $("eri-dead").textContent=secondSight?L(UI.eriDead):"";
+  $("eri-help-text").textContent=L(secondSight?UI.eriHelp:UI.eriHelpFirst);
+  const defs=[["modosu",UI.marks.modosu],["hidarimae",UI.marks.hidarimae],
+              ["nokosu",UI.marks.nokosu],["maneku",UI.marks.maneku]];
+  $("ending-progress").textContent=L(UI.endingProgress).replace("{n}",String(got.length));
+  $("marks").innerHTML=defs.map(([k,l])=>{
+    const unlocked=got.includes(k),label=unlocked?L(l):L(UI.markUnknown);
+    return `<button type="button" class="ending-mark ${unlocked?"got":""}" data-ending="${k}" aria-label="${escHTML(label)}" ${unlocked?"":"disabled"}>${label}</button>`;
+  }).join("");
+  $("marks").querySelectorAll(".ending-mark.got").forEach(btn=>btn.onclick=()=>openEndingBook(btn.dataset.ending));
+  $("btn-reset").disabled=got.length===0;
+}
+let resetArmed=false,resetTimer=null;
+$("btn-reset").onclick=()=>{
+  if($("btn-reset").disabled) return;
+  if(!resetArmed){
+    resetArmed=true; $("btn-reset").classList.add("warn");
+    $("btn-reset").textContent=L(UI.resetConfirm);
+    resetTimer=setTimeout(()=>{resetArmed=false;$("btn-reset").classList.remove("warn");
+      $("btn-reset").textContent=L(UI.resetDefault);},3000);
+    return;
+  }
+  clearTimeout(resetTimer); resetArmed=false;
+  try{ localStorage.removeItem("sakasa_endings");localStorage.removeItem("sakasa_ending_details");localStorage.removeItem("sakasa_run_v2"); }catch(e){}
+  closeEndingBook();
+  renderMarks();
+  refreshResume();
+  $("btn-reset").classList.remove("warn");
+  $("btn-reset").textContent=L(UI.resetDone);
+  setTimeout(()=>{ $("btn-reset").textContent=L(UI.resetDefault); },1500);
+};
+
+/* 線香の煙 */
+(function makeSmoke(){
+  for(let i=0;i<5;i++){
+    const m=document.createElement("div");
+    m.className="smoke";
+    m.style.left=(8+Math.random()*84)+"vw";
+    m.style.setProperty("--sway",(Math.random()*70-35)+"px");
+    m.style.animationDuration=(16+Math.random()*12)+"s";
+    m.style.animationDelay=(-Math.random()*22)+"s";
+    m.style.opacity=.5+Math.random()*.4;
+    document.body.appendChild(m);
+  }
+})();
+
+/* ================= 書付 ================= */
+function renderKakitsuke(){
+  const rows=[];
+  RITES.forEach((r,i)=>{
+    rows.push(`<div class="li ${i<state.doneN?"done":""}"><span class="n">${i+1}.</span><span>${L(r.line)}</span></div>`);
+  });
+  for(let k=0;k<state.added;k++){
+    const a=ADDED[k];
+    rows.push(`<div class="li added ${k<state.addedDoneN?"done":""}"><span class="n">${RITES.length+k+1}.</span><span>${L(a.line)}</span></div>`);
+  }
+  if(state.phase==="undo"){
+    UNDO.forEach((u,i)=>{
+      rows.push(`<div class="li ${i<state.undoDoneN?"done":""}"><span class="n">◦</span><span>${L(u.line)}</span></div>`);
+    });
+  }
+  $("kk-rows").innerHTML=rows.join("");
+  $("kk-rows").scrollTop=$("kk-rows").scrollHeight;
+}
+
+/* 衿の傾き＝反転度。右前から左前へ */
+function renderEri(){
+  const u=Math.min(state.utsuri,6);
+  const p=(u/6)*100;
+  const icon=document.querySelector(".eri");
+  const track=document.querySelector(".eri-track");
+  icon.style.setProperty("--eri-l",String(.95-(u/6)*.68));
+  icon.style.setProperty("--eri-r",String(.25+(u/6)*.75));
+  track.style.setProperty("--eri-pos",p+"%");
+  track.style.setProperty("--eri-dot",u>=4?"var(--beni)":"var(--sumi2)");
+}
+
+/* ================= 作法の描画 ================= */
+function registerGlyphs(name,visible){
+  return graphemes(name).map(c=>`<i class="glyph ${visible?"on":""}">${escHTML(c)}</i>`).join("");
+}
+function registerFontSize(name){
+  const n=graphemes(name).length;
+  return n>10?7:n>8?8:n>6?11:n>4?13:16;
+}
+function objHTML(kind,opts={}){
+  if(kind==="byobu") return `<img class="artifact-img byobu-art" src="sakasagoto-assets-illustrated/byobu-pine.webp" alt="">`;
+  if(kind==="futon") return `<img class="artifact-img futon-art" src="sakasagoto-assets-illustrated/kita-makura.webp" alt="">`;
+  if(kind==="zori")  return `<img class="artifact-img zori-art" src="sakasagoto-assets-illustrated/zori.webp" alt="">`;
+  if(kind==="meshi") return `<div class="meshi"><div class="hashi"></div></div>`;
+  if(kind==="kakocho"){
+    const name=opts.primary||"";
+    const label=name||(lang==="ja"?"開かれた過去帳":"An open family death register");
+    return `<div class="kakocho" role="img" aria-label="${escHTML(label)}"><span class="inscription primary ${lang==="ja"?"ja":"en"}" style="font-size:${registerFontSize(name)}px">${registerGlyphs(name,true)}</span></div>`;
+  }
+  return `<img class="artifact-img byobu-art" src="sakasagoto-assets-illustrated/byobu-pine.webp" alt="">`;
+}
+
+function animateRegisterName(name,column){
+  const book=$("obj").querySelector(".kakocho");
+  if(!book) return;
+  let slot=book.querySelector(`.inscription.${column}`);
+  if(!slot){
+    slot=document.createElement("span");
+    slot.className=`inscription ${column} ${lang==="ja"?"ja":"en"}`;
+    book.appendChild(slot);
+  }
+  if(column==="second"){
+    const hasGrandmotherName=!!book.querySelector(".inscription.primary .glyph");
+    book.classList.toggle("has-second",hasGrandmotherName);
+  }
+  slot.style.fontSize=registerFontSize(name)+"px";
+  slot.innerHTML=registerGlyphs(name,false);
+  book.classList.remove("writing");void book.offsetWidth;book.classList.add("writing");
+  const glyphs=[...slot.querySelectorAll(".glyph")];
+  [...glyphs].reverse().forEach((g,i)=>setTimeout(()=>g.classList.add("on"),120+i*240));
+  book.setAttribute("aria-label",name);
+  setTimeout(()=>book.classList.remove("writing"),Math.max(920,glyphs.length*240+360));
+}
+
+let cur=null;   // 現在の作法の操作状態
+
+function cultureHTML(R){
+  if(!R.culture) return "";
+  return `<details class="culture-note"><summary>${L(UI.cultureSummary)}</summary><div class="culture-body">${L(R.culture)}</div></details>`;
+}
+
+function renderRite(R, onDone){
+  const obj=$("obj");
+  $("zashiki").classList.toggle("meshi-stage",R.objKind==="meshi");
+  obj.className=""; obj.style.removeProperty("--ang");obj.removeAttribute("tabindex");obj.removeAttribute("role");obj.removeAttribute("aria-label");obj.onkeydown=null;
+  $("compass").textContent = R.objKind==="futon" ? L(UI.north) : "";
+  $("zori-guide").hidden=R.objKind!=="zori";
+  $("deck").innerHTML="";
+
+  if(R.kind==="order"){
+    cur={kind:"order", picked:(R.initial||[]).slice(), want:R.want, inverted:!!R.inverted};
+    const artClass=R.key.includes("mizu")?" illustrated mizu-pair":
+      R.key.includes("eri")?" illustrated eri-pair":"";
+    obj.innerHTML=`<div class="pair${artClass}">
+      <button type="button" class="half" data-k="a"><span class="choice-label">${L(R.a)}</span></button>
+      <button type="button" class="half" data-k="b"><span class="choice-label">${L(R.b)}</span></button></div>`;
+    $("hint").textContent=cur.picked.length===2?"":L(UI.clickHintOrder);
+    obj.querySelectorAll(".half").forEach(el=>{
+      el.onclick=()=>{
+        /* 完成済みの合わせも、どちらかを押せばその側から選び直せる。 */
+        if(cur.picked.length>=2){
+          cur.picked=[];
+          obj.querySelectorAll(".half").forEach(h=>h.classList.remove("taken","first","second","touched"));
+          $("deck").innerHTML="";
+          $("hint").textContent=L(UI.clickHintOrder);
+        }
+        /* 反転時：触れたのと逆の身頃が動く */
+        let k=el.dataset.k;
+        if(cur.inverted) k = (k==="a")?"b":"a";
+        if(cur.picked.includes(k)) return;
+        cur.picked.push(k);
+        const target=obj.querySelector(`.half[data-k="${k}"]`);
+        if(target!==el){
+          /* 触れた側は沈むだけで持ち上がらない。動くのは、もう一方。 */
+          el.classList.remove("touched");
+          void el.offsetWidth;
+          el.classList.add("touched");
+        }
+        target.classList.add("taken", cur.picked.length===1?"first":"second");
+        kinu();
+        if(cur.picked.length===2){ $("hint").textContent=""; enableConfirm(R,onDone); }
+      };
+    });
+    /* 夜の時点ですでに生者向けなら、完成した合わせをそのまま引き継ぐ。 */
+    cur.picked.forEach((k,i)=>{
+      const target=obj.querySelector(`.half[data-k="${k}"]`);
+      if(target) target.classList.add("taken",i===0?"first":"second");
+    });
+    if(cur.picked.length===2) enableConfirm(R,onDone);
+  }else{
+    const isMeshi = R.objKind==="meshi";
+    obj.classList.toggle("meshi-object",isMeshi);
+    /* rot2 は「元の向き」と「逆さの向き」の二状態を往復する。
+       角度に一律 180 を足す実装だと、start と want が 180 度差でない作法
+       （箸を寝かせた 78 度→垂直 0 度など）が永久に正解へ到達できない。 */
+    cur={kind:"rot", ang:R.start, two:(R.kind!=="rot4"), a0:R.start,
+         a1:R.start===R.want?(R.want+180)%360:R.want,
+         step:90, want:R.want, inverted:!!R.inverted, isMeshi};
+    obj.innerHTML=objHTML(R.objKind||"byobu");
+    $("hint").textContent = R.start===R.want?"":(R.kind==="rot4"?L(UI.clickHintRot):L(UI.clickHintFlip));
+    applyAngle();
+    obj.onclick=()=>{
+      if(cur.two){
+        cur.ang = (cur.ang===cur.a0) ? cur.a1 : cur.a0;
+      }else{
+        const dir = cur.inverted ? -1 : 1;
+        cur.ang = (cur.ang + dir*cur.step + 720) % 360;
+      }
+      applyAngle(); kinu();
+      enableConfirm(R,onDone);
+    };
+    obj.tabIndex=0;obj.setAttribute("role","button");obj.setAttribute("aria-label",$("hint").textContent||L(UI.clickHintFlip));
+    obj.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();obj.click();}};
+    /* すでに元の向きなら、動かさず確認してよい。 */
+    if(cur.ang===cur.want) enableConfirm(R,onDone);
+  }
+  renderKakitsuke();
+}
+function applyAngle(){
+  const obj=$("obj");
+  if(cur.isMeshi){
+    /* 箸だけが起き上がる */
+    obj.querySelector(".hashi").style.setProperty("--hashi", cur.ang+"deg");
+  }else{
+    obj.style.setProperty("--ang", cur.ang+"deg");
+  }
+}
+function enableConfirm(R,onDone){
+  $("deck").innerHTML=`<button class="fuda" id="b-ok">${L(UI.confirm)}</button>`;
+  $("b-ok").onclick=()=>{
+    let correct;
+    if(cur.kind==="order") correct = cur.picked.join(",")===R.want.join(",");
+    else correct = (cur.ang%360)===(R.want%360);
+    $("obj").onclick=null;
+    $("obj").onkeydown=null;$("obj").removeAttribute("tabindex");$("obj").removeAttribute("role");
+    $("obj").classList.add("locked");
+    $("obj").querySelectorAll(".half").forEach(el=>el.onclick=null);
+    $("hint").textContent="";
+    onDone(correct);
+  };
+}
+
+/* ================= 進行 ================= */
+function readPlayerName(){
+  const input=$("player-name");
+  const value=input.value.normalize("NFC").trim().replace(/\s+/g," ");
+  if(!value){
+    input.setAttribute("aria-invalid","true");
+    $("name-error").textContent=L(UI.playerNameRequired);
+    input.focus();
+    return "";
+  }
+  input.setAttribute("aria-invalid","false");
+  $("name-error").textContent="";
+  input.value=value;
+  return value;
+}
+$("player-name").addEventListener("input",()=>{
+  $("player-name").setAttribute("aria-invalid","false");
+  $("name-error").textContent="";
+});
+$("btn-start").onclick=()=>{
+  const enteredName=readPlayerName();
+  if(!enteredName) return;
+  playerName=enteredName;
+  clearRun();
+  startBGM().then(ok=>{if(ok) rin(.02);});
+  Object.assign(state,{idx:0,phase:"rite",added:0,undoIdx:0,utsuri:0,
+    failed:false,wrote1:false,wrote2:false,ended:false,started:true,undoFail:0,
+    riteResults:{},restoredResults:{},failedKeys:[],undoFailedKeys:[],checkpoint:"",
+    doneN:0,addedDoneN:0,undoDoneN:0});
+  $("story").innerHTML=INTRO.map(t=>`<p>${L(t)}</p>`).join("")+
+    `<div class="actions"><button class="fuda" id="btn-begin">${L(UI.begin)}</button></div>`;
+  setTime("evening");
+  show("s-story");
+  $("btn-begin").onclick=()=>{
+    if(sndOn) startBGM();
+    runRite(0);
+  };
+};
+$("btn-resume").onclick=()=>{
+  const saved=loadRun();if(!saved)return refreshResume();
+  playerName=saved.playerName;lang=saved.lang==="en"?"en":"ja";
+  Object.assign(state,saved.state,{started:true,ended:false});
+  $("player-name").value=playerName;applyStaticUI();startBGM();
+  const cp=state.checkpoint||"rite:0";
+  if(cp.startsWith("rite:")) return runRite(Number(cp.split(":")[1])||0);
+  show("s-work");
+  if(cp.startsWith("added:")) return runAdded(Number(cp.split(":")[1])||0);
+  if(cp==="undo-intro") return runUndoIntro();
+  if(cp.startsWith("undo:")) return runUndo(Number(cp.split(":")[1])||0);
+  runRite(0);
+};
+
+const INTRO=[
+  J("平成のはじめ、九月。祖母の絹（きぬ）が死んだ。享年九十一歳。",
+    "September, in the early nineties. My grandmother Kinu died, at ninety-one."),
+  J("本通夜は明日の晩だった。両親も親類も、朝になってから来る。",
+    "The formal wake was to be held the following evening. My parents and the other relatives would not arrive until morning."),
+  J("それなのに伯母は、私にだけ「今夜のうちに来なさい」と電話をよこした。",
+    "And yet my aunt had telephoned only me. \"Come tonight,\" she had said."),
+  J("山あいの旧家に戻ったのは、十年ぶりだった。門をくぐると、伯母の多恵が土間に立っていた。「これで、始められるね」",
+    "It was ten years since I had last come back to the old house in the hills. My aunt Tae was standing in the entryway when I came through the gate. \"Now we can begin,\" she said."),
+  J("座敷には、白い布をかけられた祖母が寝かされていた。線香の煙が、まっすぐ天井へ伸びている。",
+    "My grandmother lay in the front room under a white cloth. The incense smoke rose straight up to the ceiling."),
+  J("「死者に、生きている人の作法が通じちゃいけない」伯母は言った。「だから屏風も、水も、着物も逆にする。あちら側の人だと分からせるために」",
+    "\"The customs of the living must not reach the dead,\" my aunt said. \"So we reverse the screen, the water, the clothes—so she understands which side she belongs to.\""),
+  J("「一つでも生者のやり方でやれば、婆さんはここに残る」伯母は、祖母の字で書かれた一枚の紙を差し出した。「この通りにやるよ」",
+    "\"Do even one of them the living way, and she will remain here.\" My aunt held out a sheet written in my grandmother's hand. \"We follow this exactly.\""),
+  J("「それと、もう一つ」伯母は声を落とした。「逆さ事は、この家の中だけだ。外へ持ち出しちゃいけない。朝までに、全部きちんと戻すんだよ」",
+    "\"And one more thing.\" My aunt lowered her voice. \"The reversed rites belong inside this house. They must not be carried out of it. By morning, every one of them must be set back the way it was.\"")
+];
+
+function runRite(i){
+  if(state.ended) return;
+  state.idx=i; state.phase="rite";
+  const R=RITES[i];
+  setTime(i<2?"evening":i===2?"midnight":"deep");setAct(i<3?0:1);saveRun("rite:"+i);
+  $("hb-clock").textContent=L(R.clock);
+  $("hb-hour").textContent=L(R.hour);
+  renderEri();
+  $("note").innerHTML=R.pre.map(t=>`<p>${L(t)}</p>`).join("")+cultureHTML(R);
+  show("s-work");
+  rin(0);
+  renderRite(R,(correct)=>{
+    state.riteResults[R.key]=correct;
+    ritualSound(R.key);
+    /* 正否にかかわらず、確定した時点でその行は「済んだ」 */
+    state.doneN=Math.max(state.doneN, state.idx+1);
+    renderKakitsuke();
+    renderTableau();
+    if(correct){
+      state.utsuri++;
+      renderEri();
+      $("note").innerHTML=R.ok.map(t=>`<p>${L(t)}</p>`).join("");
+      if(state.utsuri>=4) kishimi();
+    }else{
+      state.failed=true;
+      if(!state.failedKeys.includes(R.key)) state.failedKeys.push(R.key);
+      $("note").innerHTML=R.ng.map(t=>`<p class="v">${L(t)}</p>`).join("");
+      misstepEffect();
+      showRiteOmen(R.key);
+      kishimi();
+    }
+    $("deck").innerHTML=`<button class="fuda" id="b-c">${L(UI.cont)}</button>`;
+    $("b-c").onclick=afterRite;
+  });
+}
+
+function afterRite(){
+  /* 四つ目（枕飯）の後に七行目、六つ目（履物）の後に八行目が増える */
+  if(state.idx===3 && state.added===0){ state.added=1; return runAdded(0); }
+  if(state.idx===5 && state.added===1){ state.added=2; return runAdded(1); }
+  const nx=state.idx+1;
+  if(nx>=RITES.length) return runUndoIntro();
+  runRite(nx);
+}
+
+function runAdded(k){
+  const A=ADDED[k];
+  state.phase="added";
+  $("zashiki").classList.remove("meshi-stage");
+  show("s-work");
+  setTime("omen");setAct(2);saveRun("added:"+k);
+  renderKakitsuke();
+  renderTableau();
+  rin(0); kishimi();
+  $("note").innerHTML=A.pre.map((t,i)=>`<p ${i>=2?'class="v"':''}>${L(t)}</p>`).join("")+cultureHTML(A);
+  const kinu=L(GRANDMOTHER_NAME);
+  const reversedKinu=reverseText(kinu);
+  /* 直前の屏風・草履などに使った回転を過去帳へ引き継がない。 */
+  $("obj").style.removeProperty("--ang");
+  $("obj").innerHTML=objHTML("kakocho",{primary:(k===1&&state.wrote1)?reversedKinu:""});
+  $("obj").className=""; $("obj").onclick=null;$("obj").onkeydown=null;$("obj").removeAttribute("tabindex"); $("hint").textContent="";
+  $("compass").textContent="";$("zori-guide").hidden=true;
+  $("deck").innerHTML=
+    `<button class="fuda warn" id="a-yes">${L(A.yes)}</button>
+     <button class="fuda" id="a-no">${L(A.no)}</button>`;
+  $("a-yes").onclick=()=>{
+    state.addedDoneN=Math.max(state.addedDoneN,k+1);renderKakitsuke();
+    if(k===0) state.wrote1=true; else state.wrote2=true;
+    const ownName=playerName||(lang==="ja"?"ワタシ":"YOU");
+    const reversedOwnName=reverseText(ownName);
+    animateRegisterName(k===0?reversedKinu:reversedOwnName,k===0?"primary":"second");
+    state.utsuri+=2; renderEri();
+    $("note").innerHTML=A.okText.map(t=>`<p class="v">${L(t)}</p>`).join("");
+    kishimi();
+    $("deck").innerHTML=`<button class="fuda" id="b-c">${L(UI.cont)}</button>`;
+    $("b-c").onclick=contAfterAdded;
+  };
+  $("a-no").onclick=()=>{
+    state.addedDoneN=Math.max(state.addedDoneN,k+1);renderKakitsuke();
+    $("note").innerHTML=A.noText.map(t=>`<p>${L(t)}</p>`).join("");
+    kishimi();
+    $("deck").innerHTML=`<button class="fuda" id="b-c">${L(UI.cont)}</button>`;
+    $("b-c").onclick=contAfterAdded;
+  };
+}
+function contAfterAdded(){
+  const nx=state.idx+1;
+  if(nx>=RITES.length) return runUndoIntro();
+  runRite(nx);
+}
+
+/* --- 明け方：戻す --- */
+const UNDO_INTRO=[
+  J("障子が、白みはじめた。","The paper doors had begun to go pale."),
+  J("書付の下に、伯母の字で一行だけ書き足してあった。「朝までに戻すこと」",
+    "At the foot of the note, one line had been added in my aunt's hand: \"Set everything back by morning.\""),
+  J("屏風。衿。履物。ひとつずつ、元へ戻していけばいい。",
+    "The screen. The collar. The sandals. One by one, back the way they were.")
+];
+function runUndoIntro(){
+  state.phase="undo"; state.undoIdx=0;
+  show("s-work");
+  setTime("dawn");setAct(3);saveRun("undo-intro");
+  $("hb-clock").textContent=lang==="ja"?"午前五時":"5 a.m.";
+  $("hb-hour").textContent=lang==="ja"?"卯の刻":"Hour of the Hare";
+  const intro=UNDO_INTRO.slice();
+  intro.splice(2,0,state.riteResults.kitamakura
+    ?J("水桶を空にし、枕飯を下げた。伯母と布団を回して枕を南へ戻し、過去帳も閉じた。","I emptied the water tub and took away the pillow rice. My aunt and I turned the bedding until the pillow faced south again, then closed the death register.")
+    :J("水桶を空にし、枕飯を下げた。布団は昨夜から南のままだった。過去帳も閉じた。","I emptied the water tub and took away the pillow rice. The bedding had remained facing south all night. Then I closed the death register."));
+  if(!state.wrote1) intro.push(J("閉じたはずの過去帳の中で、祖母の俗名だけが、私の筆跡で書き上がっていた。","Inside the register I had closed, my grandmother's secular name had finished writing itself—in my hand."));
+  $("note").innerHTML=intro.map((t,i)=>`<p ${!state.wrote1&&i===intro.length-1?'class="v"':''}>${L(t)}</p>`).join("");
+  $("obj").innerHTML=""; $("obj").onclick=null; $("hint").textContent=""; $("compass").textContent="";$("zori-guide").hidden=true;
+  renderKakitsuke(); rin(0);
+  renderTableau();
+  $("deck").innerHTML=`<button class="fuda" id="b-c">${L(UI.cont)}</button>`;
+  $("b-c").onclick=()=>runUndo(0);
+}
+
+const HAND_REVERSED=[
+  J("木の縁は、死者の指のように冷たかった。","The wooden edge was cold as a dead hand."),
+  J("朝になったのに、昨夜の作法だけが、まだ指に残っている。",
+    "Morning had come, but last night's rites still lingered in my fingers.")
+];
+
+function preparedUndo(i){
+  const U={...UNDO[i],pre:UNDO[i].pre.slice()};
+  const nightKey={"u-byobu":"byobu","u-eri":"eri","u-zori":"zori"}[U.key];
+  /* 未記録時だけ従来どおり死者向けとみなす。通常の進行では必ず記録される。 */
+  const reversed=state.riteResults[nightKey]!==false;
+  U.wasReversed=reversed;
+  if(U.key==="u-byobu"){
+    U.start=reversed?180:0;
+    U.pre=[reversed
+      ?J("屏風は、逆さのままだった。松の根が、天井を向いている。","The screen was still upside down, the pine roots pointing towards the ceiling.")
+      :J("屏風は、昨夜のまま正しく立っている。松は、空へ向かって伸びている。","The screen was still standing right way up, the pine reaching towards the sky.")];
+    if(!reversed) U.ok=[J("松は、昨夜から変わらず、空へ向かって伸びている。","The pine remains as it was last night, reaching towards the sky.")];
+  }else if(U.key==="u-eri"){
+    U.pre=[reversed
+      ?J("経帷子は、左前のままだった。襟元に指をかけた。","The shroud was still dressed hidari-mae. I put my fingers to the collar.")
+      :J("経帷子は、昨夜のまま、生きている者と同じ右前になっている。","The shroud was still migi-mae, the way it had been left last night—the way of the living.")];
+    if(!reversed){
+      U.initial=U.want.slice();
+      U.ok=[J("右前のままにした。生きている者の合わせ方だ。","I left it migi-mae, the way of the living.")];
+    }
+  }else if(U.key==="u-zori"){
+    U.start=reversed?180:0;
+    U.pre=[reversed
+      ?J("土間へ下りた。草履は、外を向いたままだった。","I stepped down into the entryway. The sandals still pointed outwards.")
+      :J("土間へ下りた。草履は、昨夜のまま内を向いていた。もう、生きている人の向きだ。","I stepped down into the entryway. The sandals still pointed inwards, as I had left them—the way of the living.")];
+    if(!reversed) U.ok=[J("草履は、昨夜から変わらず、家の内を向いている。","The sandals remain as they were last night, pointing into the house.")];
+  }
+  return U;
+}
+
+function runUndo(i){
+  if(state.ended) return;
+  show("s-work");
+  state.undoIdx=i;
+  setTime("dawn");setAct(3);saveRun("undo:"+i);
+  const U=preparedUndo(i);
+  const baseKey={"u-byobu":"byobu","u-eri":"eri","u-zori":"zori"}[U.key];
+  let pre=U.pre.slice();
+  if(i===0) pre=pre.concat(HAND_REVERSED);
+  $("note").innerHTML=pre.map((t,n)=>`<p ${(i===0&&n>=2)?'class="v"':''}>${L(t)}</p>`).join("");
+  renderEri();
+  renderRite(U,(correct)=>{
+    state.undoDoneN=Math.max(state.undoDoneN, i+1);
+    renderKakitsuke();
+    if(correct){
+      state.restoredResults[baseKey]=true;
+      if(U.wasReversed) state.utsuri=Math.max(0,state.utsuri-1);
+      renderEri();
+      $("note").innerHTML=U.ok.map(t=>`<p>${L(t)}</p>`).join("");
+      rin(0);
+    }else{
+      state.undoFail++;
+      state.restoredResults[baseKey]=false;
+      if(!state.undoFailedKeys.includes(U.key)) state.undoFailedKeys.push(U.key);
+      $("note").innerHTML=U.ng.map(t=>`<p class="v">${L(t)}</p>`).join("");
+      misstepEffect();
+      kishimi();
+    }
+    renderTableau();
+    $("deck").innerHTML=`<button class="fuda" id="b-c">${L(UI.cont)}</button>`;
+    $("b-c").onclick=()=>{
+      const nx=i+1;
+      if(nx>=UNDO.length) return judge();
+      runUndo(nx);
+    };
+  });
+}
+
+function judge(){
+  /* 判定は一つずつ独立した旗で決める。混同しないこと。 */
+  if(state.wrote2) return ending("maneku");
+  if(state.failed) return ending("nokosu");
+  if(state.undoFail>0) return ending("hidarimae");
+  return ending("modosu");
+}
+
+/* ================= 結末 ================= */
+const NOKOSU_HAUNTS={
+  byobu:J("夜ごと、天井に松の根の影が広がる。朝には消えるが、畳に土だけが落ちている。","Each night, the shadow of pine roots spreads across the ceiling. It is gone by morning, but soil remains on the tatami."),
+  mizu:J("夜になると台所で水が鳴る。やがて濡れた足音が廊下を渡り、伯母の寝床の前で止まる。","At night, water runs in the kitchen. Then wet footsteps cross the corridor and stop outside my aunt's room."),
+  eri:J("畳んだ経帷子が、夜ごと人の形にふくらむ。右の衿だけが、内側からゆっくり閉じる。","Each night, the folded shroud swells into the shape of a person. Only its right collar slowly closes from within."),
+  meshi:J("翌朝、私の茶碗に箸が二本、まっすぐ立っていた。抜くと、飯の底から白い髪が続いた。","The next morning, two chopsticks stood upright in my bowl. When I pulled them out, a white hair followed from the rice."),
+  kitamakura:J("伯母は毎晩、枕を南へ戻した。眠りに落ちるたび、誰かが頭だけを北へ引いた。","Every night my aunt put her pillow back to the south. Each time she fell asleep, someone pulled only her head towards the north."),
+  zori:J("祖母の草履は、毎朝ひとつずつ土間から減った。二日目の夜、畳に濡れた足跡が揃った。","One of Grandmother's sandals vanished from the entryway each morning. On the second night, a pair of wet footprints appeared on the tatami.")
+};
+const UNDO_SCARS={
+  "u-byobu":J("正しく立てた屏風は、目を離すたび逆さへ戻った。三度目には、松の根が絵の外へ伸びていた。","Whenever I looked away, the restored screen turned upside down again. The third time, the pine roots had grown beyond the painting."),
+  "u-eri":J("右前へ戻したはずの衿を、私の指が眠っている間に左前へ直していた。","While I slept, my fingers redressed the collar hidari-mae—the way I had tried to undo."),
+  "u-zori":J("内へ戻した草履が、私の足音に合わせて少しずつ外を向いた。","The sandals I had turned inwards shifted towards the door, one small turn with every step I took.")
+};
+function getEndingData(key,manekuWroteGrandmother=true,failedRiteCount=1,failedKeys=[],undoFailedKeys=[]){
+  const manekuFirst=manekuWroteGrandmother
+    ?J("過去帳に、名をふたつ記した。祖母の名と、私の名を。","I wrote two names in the family death register. My grandmother's, and my own.")
+    :J("過去帳に記したのは、私の名だけだった。祖母の名を書くことは拒んだのに。","The only name I wrote in the death register was my own. I had refused to write my grandmother's.");
+  const grandmotherTrace=manekuWroteGrandmother
+    ?J("火の中で、祖母の名だけが最後まで黒く残った。","In the fire, only my grandmother's name remained black until the end.")
+    :J("拒んだはずの祖母の名は、私の筆跡で最後まで燃え残った。","The name I had refused to write remained in the ashes, in my own hand.");
+  const nokosuHaunts=(failedKeys.length?failedKeys:["mizu"]).slice(0,2).map(k=>NOKOSU_HAUNTS[k]).filter(Boolean);
+  const undoScar=UNDO_SCARS[undoFailedKeys[0]]||UNDO_SCARS["u-eri"];
+  const jaCount=["零","一","二","三","四","五","六"][failedRiteCount]||String(failedRiteCount);
+  const enCount=["zero","one","two","three","four","five","six"][failedRiteCount]||String(failedRiteCount);
+  const nokosuFirst=failedRiteCount===1
+    ?J("ひとつだけ、生きている人の作法でやってしまった。","One of them I had done the way you do for the living.")
+    :J(`生きている人の作法でやってしまったものが、${jaCount}つあった。`,`I had performed ${enCount} of the rites the way you do for the living.`);
+  return {
+    modosu:{t:J("結末　戻ス","Ending — Restored"),b:[
+      J("屏風も、衿も、履物も、元の向きに戻した。","The screen, the collar, the sandals — all of them set back the way they were."),
+      J("朝の光が座敷に入ったとき、祖母の顔は、もう誰の顔でもなかった。","When the morning light came into the room, my grandmother's face was no longer anyone's face."),
+      J("伯母が起きてきて、書付を火にくべた。「もう要らない」","My aunt woke and fed the note into the fire. \"We don't need it now.\""),
+      grandmotherTrace,
+      J("葬式が済み、私は都会の部屋へ帰った。","The funeral ended, and I went back to my flat in the city."),
+      J("玄関で靴を脱ぎ、いつものように向きを直した。爪先を、玄関の扉へ向けて揃える。","At the entrance I took off my shoes and turned them neatly, as I always did, with their toes pointing towards the front door."),
+      J("部屋に上がって、灯りをつけて、それからもう一度、玄関を見た。","I went in, turned on the light, and then looked back at the entrance once more."),
+      J("靴は、脱いだときとは逆に、爪先を家の中へ向けていた。","The shoes had turned the opposite way. Their toes now pointed into the flat."),
+      J("その先から、濡れた足跡が廊下の暗がりへ続いていた。","From their toes, wet footprints led away into the darkened hall.")
+    ]},
+    hidarimae:{t:J("結末　左前","Ending — Hidari-mae"),b:[
+      J("戻しきれなかったものが、家の中に残った。","Something in the house had not been set back."),
+      undoScar,
+      J("戻せなかったのではない。手が、もう逆さ事のほうを本当だと思っていた。","It was not that I could not. My hands had come to believe the reversed way was the true one."),
+      J("朝、鏡を見た。襟が左前に合わさっていた。直そうとして、指が逆へ動いた。","In the morning I looked in the mirror. My collar was dressed hidari-mae. I went to fix it, and my fingers moved the wrong way."),
+      J("伯母が私を見て、少しだけ、目をそらした。","My aunt looked at me, and then looked slightly away."),
+      J("それから伯母は、私の名を呼ばなくなった。","After that, my aunt stopped calling me by my name."),
+      J("用があると、私ではなく仏壇に向かって言った。「あの子を、まだ連れていかないで」","Whenever she needed me, she spoke not to me but to the family altar. \"Please don't take that child yet.\""),
+      J("葬式の日、私の履物だけが、外を向いて揃えられていた。","On the day of the funeral, only my sandals had been set out facing the door."),
+      J("誰が置いたのかは、聞かなかった。","I did not ask who had placed them.")
+    ]},
+    nokosu:{t:J("結末　残ス","Ending — Left Behind"),b:[
+      nokosuFirst,
+      J("祖母は、それを見ていた。","My grandmother had seen it."),
+      J("葬式は滞りなく済んだ。骨も拾った。位牌も納めた。","The funeral went off without trouble. We gathered the bones. We set the tablet in place."),
+      J("それでも祖母は、まだこの家の人だった。","And still my grandmother belonged to this house."),
+      ...nokosuHaunts,
+      J("戸の向こうから祖母が、「まだ起きてるの」と聞く。","From the other side of the door, my grandmother asks, \"Are you still awake?\""),
+      J("伯母は家を出た。最後に玄関を閉めたとき、誰もいない座敷から「行ってらっしゃい」と声がした。","My aunt left the house. As she closed the front door for the last time, a voice called from the empty room: \"Off you go.\""),
+      J("生きている者を、家に残って見送る声だった。","It was the voice of someone staying home, seeing the living off.")
+    ]},
+    maneku:{t:J("結末　招ク","Ending — Beckoned"),b:[
+      manekuFirst,
+      J("逆さ事は、死んだ人に「あちら側だ」と分からせるための作法だった。","The reversed rites are how you make the dead understand which side they are on."),
+      J("私は自分の名で、それをやった。","I performed them in my own name."),
+      J("障子が白むころ、伯母が座敷に入ってきた。私の前を、何もないところを見るように通り過ぎた。","At first light, my aunt came into the room. She walked straight past me as if there were nothing there."),
+      J("祖母の枕元で、閉じた過去帳がひとりでに開いた。昨夜、逆さに記した私の名が、今は正しい向きで並んでいる。","Beside my grandmother's pillow, the closed death register opened by itself. My own name, which I had written in reverse, now stood the right way up."),
+      J("伯母は祖母と、その頁に向かって言った。「二人とも、もう行きな」","My aunt faced my grandmother and the open page. \"Both of you. It's time to go.\""),
+      J("祖母は返事をしなかった。白布の下から伸びた手が、私の手首をつかんだ。","Grandmother did not answer. A hand reached from beneath the white cloth and closed around my wrist."),
+      J("私が「はい」と答えると、その声は祖母の口から聞こえた。","When I answered, \"Yes,\" the voice came from Grandmother's mouth.")
+    ]}
+  }[key];
+}
+
+function ending(key){
+  if(state.ended) return;
+  state.ended=true;
+  clearTimeout(melTimer); melTimer=null;
+  const failedRiteCount=Object.values(state.riteResults).filter(v=>v===false).length;
+  const E=getEndingData(key,state.wrote1,failedRiteCount,state.failedKeys,state.undoFailedKeys);
+  saveMark(key);
+  saveEndingDetail(key);
+  clearRun();
+
+  const VIS={ modosu:0, hidarimae:6, nokosu:3, maneku:6 }[key];
+  state.utsuri=VIS; renderEri();
+
+  $("obj").onclick=null;$("zori-guide").hidden=true;
+  $("deck").innerHTML=""; $("note").innerHTML=""; $("hint").textContent=""; $("compass").textContent="";
+
+  const veil=$("veil"), card=$("endcard"), room=$("room"), box=$("note");
+  card.textContent=L(E.t);
+  veil.classList.add("on");
+  rin(.15);
+
+  setTimeout(()=>{
+    room.classList.add("ending");
+    /* 結末では座敷そのものが逆さになる */
+    $("zashiki").style.transform = (key==="modosu") ? "none" : "rotate(180deg)";
+    /* 直前の作法で回した角度が残ると、結末の絵が意図しない向きで出る */
+    $("obj").style.setProperty("--ang","0deg");
+    $("obj").innerHTML = objHTML(key==="maneku"?"futon":"byobu");
+    card.classList.add("show");
+    veil.classList.remove("on");
+  }, 1000);
+
+  setTimeout(()=>{ card.classList.remove("show"); }, 3800);
+
+  setTimeout(()=>{
+    let idx=0;
+    const next=()=>{
+      if(idx<E.b.length){
+        const p=document.createElement("p");
+        p.className="reveal";
+        p.textContent=L(E.b[idx]);
+        box.appendChild(p);
+        box.scrollTop=box.scrollHeight;
+        requestAnimationFrame(()=>requestAnimationFrame(()=>p.classList.add("on")));
+        if(idx===E.b.length-1) rin(.2);
+        idx++;
+        $("deck").innerHTML=`<button class="fuda" id="b-more">${L(UI.more)}</button>`;
+        $("b-more").onclick=next;
+      }else{
+        $("deck").innerHTML=`<button class="fuda" id="b-end">${L(UI.leave)}</button>`;
+        $("b-end").onclick=()=>location.reload();
+      }
+    };
+    next();
+  }, 4700);
+}
+
+renderMarks();
+applyStaticUI();
+refreshResume();
+setTime("title");
+</script>
+</body>
+</html>
